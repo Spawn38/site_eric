@@ -1,0 +1,124 @@
+/* Custom Stylesheet */
+/**
+ * Use this file to override Materialize files so you can update
+ * the core Materialize files in the future
+ *
+ * Made By MaterializeCSS.com
+ */
+
+nav ul a,
+nav .brand-logo {
+  color: #444;
+}
+
+p {
+  line-height: 2rem;
+}
+
+.button-collapse {
+  color: #26a69a;
+}
+
+.parallax-container {
+  min-height: 380px;
+  line-height: 0;
+  height: auto;
+  color: rgba(255,255,255,.9);
+}
+  .parallax-container .section {
+    width: 100%;
+  }
+
+@media only screen and (max-width : 992px) {
+
+  #index-banner .section {
+    top: 10%;
+  }
+}
+
+@media only screen and (max-width : 600px) {
+  #index-banner .section {
+    top: 0;
+  }
+}
+
+.icon-block {
+  padding: 0 15px;
+}
+.icon-block .material-icons {
+  font-size: inherit;
+}
+
+footer.page-footer {
+  margin: 0;
+}
+
+table {
+  border-collapse: collapse;
+   border-spacing: 0px;
+   line-height: 0px;
+   color: white;
+}
+
+table a {
+  color: white;
+}
+
+.textImage {
+  color: white;
+    text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;  
+}
+
+
+#logo {
+  height : 60px;
+}
+
+@media screen and (max-width : 600px) {
+  #logo {
+    height : 50px;
+  }
+  html {
+    font-size:12px !important;
+  }
+}
+
+
+.tabs .tab a {
+  color : #009688 !important;
+}
+
+.indicator {
+  background-color:  #009688 !important;
+}
+
+table.admin a {
+  color:black;
+}
+
+[type="radio"]:not(:checked) + label:before,
+[type="radio"]:not(:checked) + label:after,
+[type="radio"]:checked + label:before,
+[type="radio"]:checked + label:after {
+  border-color:white !important;
+}
+
+[type="radio"]:checked + label:before,
+[type="radio"]:checked + label:after {
+  background-color:white !important;
+}
+
+.margin-top {
+  margin-top :16px;
+}
+
+.popup td {
+  color : black;
+  line-height: initial;
+  padding : 5px 10px;
+}
+

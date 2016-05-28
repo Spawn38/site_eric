@@ -1,0 +1,19 @@
+DirectoryIndex index.php
+
+RewriteEngine On
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^.*$ "http://spra-france.fr" [L,QSA]
+RewriteRule ^/?admin/(.*)? - [F]
+
+# Alternative pour empêcher le listage des répertoires
+IndexIgnore *
+
+
+# Protéger les fichiers .htaccess et .htpasswds
+<Files ~ "^.*\.([Hh][Tt][AaPp])">
+order allow,deny
+deny from all
+satisfy all
+</Files>
