@@ -1,8 +1,8 @@
 <?php
 session_start();
 include(__DIR__.'/func/checkLogin.php');
-if(!isSet($_SESSION['login']) || !isSet($_SESSION['password']) || !checkLogin($_SESSION['login'], $_SESSION['password'])) {  
-    header("location:admin.php");  
+if(!isSet($_SESSION['login']) || !isSet($_SESSION['password']) || !checkLogin($_SESSION['login'], $_SESSION['password'])) {
+    header("location:admin.php");
 }
 
 $langue = isSet($_SESSION['lang'])?$_SESSION['lang']:"fr";
@@ -18,6 +18,9 @@ $pageElements = getPageElements($langue, getDefaultValues());
 include(__DIR__.'/func/getEngagements.php');
 $engagements = getEngagements($langue);
 
+include(__DIR__.'/func/getEngagementsNumber.php');
+$engagementsNumber = getEngagementsNumber();
+
 include(__DIR__.'/func/getJoueurs.php');
 $joueurs = getJoueurs($langue);
 ?>
@@ -32,7 +35,7 @@ $joueurs = getJoueurs($langue);
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>  
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
 <body>
   <nav>
@@ -48,16 +51,16 @@ $joueurs = getJoueurs($langue);
           <input name="group1" type="radio" id="test2" />
           <label class="white-text" for="test2">En</label>
         </ul>
-      </div>  
+      </div>
     </div>
   </nav>
   <div id="loading" class="container center margin-top">
     <div class="preloader-wrapper big active">
-      <div class="spinner-layer spinner-green-only">      
+      <div class="spinner-layer spinner-teal-only">
         <div class="circle-clipper left">
-          <div class="circle"></div>        
-        </div>      
-      </div>    
+          <div class="circle"></div>
+        </div>
+      </div>
     </div>
     <h4>Chargement...</h4>
   </div>
@@ -65,8 +68,8 @@ $joueurs = getJoueurs($langue);
     <div class="col s12 margin-top">
       <ul class="tabs">
         <?php
-        $titre = array("admin1" => "Principale", "admin2" => "Contact", 
-          "admin3" => "Engagements", "admin4" => "Blocks", "admin5" => "Sportifs", 
+        $titre = array("admin1" => "Principale", "admin2" => "Contact",
+          "admin3" => "Engagements", "admin4" => "Blocks", "admin5" => "Sportifs",
           "admin6" => "Références");
         $i=0;
         foreach($titre as $id => $menu ) {
@@ -76,35 +79,35 @@ $joueurs = getJoueurs($langue);
           }
           echo " href=\"#$id\">$menu</a></li>";
           $i++;
-        }        
+        }
         ?>
       </ul>
     </div>
     <div id="admin1" class="col s12">
-      <table class="bordered highlight admin"  
+      <table class="bordered highlight admin"
         style="line-height:normal;color:black;margin:15px;width:100%"
-        id="tabContact"> 
+        id="tabContact">
        <thead>
           <tr>
             <th data-field="id">Element</th>
-            <th data-field="name">Valeur</th>              
-            <th data-field="name">Actions</th>              
+            <th data-field="name">Valeur</th>
+            <th data-field="name">Actions</th>
           </tr>
         </thead>
         <tbody>
         <?php
-        
-        foreach ( $pageElements as $key => $element) {        
+
+        foreach ( $pageElements as $key => $element) {
           echo "<tr>";
           echo "<td>".html_entity_decode($key)."</td>";
-          echo "<td style=\"white-space: pre-wrap; width:60%\" id=\"element".html_entity_decode($key)."\">".html_entity_decode($element)."</td>";
+          echo "<td style=\"white-space: pre-wrap; width:60%\" id=\"element".html_entity_decode($key)."\">".html_entity_decode($element['value'])."</td>";
           echo "<td>";
             echo "<a class=\"waves-effect waves-light btn\" style=\"margin-right:15px\"
-              onClick=\"editElementForm('".htmlentities($key)."')\">Edit</a>";   
-            echo "<a class=\"waves-effect waves-light btn\" 
-              onClick=\"resetElementForm('".htmlentities($key)."')\">Reset</a>";       
+              onClick=\"editElementForm('".htmlentities($key)."','".$element['simple']."')\">Edit</a>";
+            echo "<a class=\"waves-effect waves-light btn\"
+              onClick=\"resetElementForm('".htmlentities($key)."')\">Reset</a>";
           echo "</td>";
-          echo "</tr>";        
+          echo "</tr>";
         }
         ?>
         </tbody>
@@ -112,45 +115,52 @@ $joueurs = getJoueurs($langue);
 
       <div id="modalElementForm" class="modal">
         <div class="modal-content">
-          <h5 class="white-text center-align card-panel teal">Page principale</h5>      
+          <h5 class="white-text center-align card-panel teal">Page principale</h5>
           <form class="col s12" id="elementFormAdmin">
             <div class="row">
               <div class="input-field col s12">
-                <input id="labelElementForm" type="text" class="validate" disabled>
+                <input id="labelElementForm" type="text" disabled>
                 <label for="labelElementForm">Element</label>
               </div>
             </div>
-            <div class="row">
+            <div class="row" id="editComplex">
               <div class="input-field col s12">
                 <textarea id="valueElementForm" ></textarea>
               </div>
             </div>
-            <div class="row right">        
-                <button class="btn waves-effect waves-light" type="submit" name="action">Enregistrer                  
-                </button>        
+            <div class="row" id="editSimple">
+              <div class="input-field col s12">
+                <input id="simpelValueElementForm" type="text" class="validate">
+                <label for="simpelValueElementForm">Texte</label>
+              </div>
+            </div>
+            <div class="row right">
+                <button class="btn waves-effect waves-light" type="submit" name="action">Enregistrer
+                </button>
                 <a onCLick="$('#modalElementForm').closeModal();" class="waves-effect waves-green btn-flat">Annuler</a>
             </div>
-            <input type="hidden" id="idElementForm" name="idElementForm" value=""/>          
+            <input type="hidden" id="simpleElementForm" name="simpleElementForm" value=""/>
+            <input type="hidden" id="idElementForm" name="idElementForm" value=""/>
           </form>
         </div>
       </div>
     </div>
     <div id="admin2" class="col s12">
 
-      <table class="bordered highlight admin"  
+      <table class="bordered highlight admin"
         style="line-height:normal;color:black;margin:15px;width:100%"
-        id="tabContact"> 
+        id="tabContact">
        <thead>
           <tr>
             <th data-field="id">Label</th>
-            <th data-field="name">Valeur</th>              
-            <th data-field="name">Actions</th>              
+            <th data-field="name">Valeur</th>
+            <th data-field="name">Actions</th>
           </tr>
         </thead>
         <tbody>
         <?php
         $indexContact = 0;
-        foreach ( $contacts as $key => $value) {        
+        foreach ( $contacts as $key => $value) {
           echo "<tr id=\"contactRow".$indexContact."\">";
           echo "<td>".html_entity_decode($value["label"])."</td>";
           echo "<td style=\"white-space: pre-wrap; width:60%\">".html_entity_decode($value["value"])."</td>";
@@ -169,12 +179,12 @@ $joueurs = getJoueurs($langue);
 
       <div class="row">
         <form class="col s12">
-          <a class="waves-effect waves-light btn" onClick="addContactForm()">Ajouter</a>     
+          <a class="waves-effect waves-light btn" onClick="addContactForm()">Ajouter</a>
         </form>
       </div>
       <div id="modalContactForm" class="modal">
         <div class="modal-content">
-          <h5 class="white-text center-align card-panel teal">Contact</h5>      
+          <h5 class="white-text center-align card-panel teal">Contact</h5>
           <form class="col s12" id="contactFormAdmin">
             <div class="row">
               <div class="input-field col s12">
@@ -187,9 +197,9 @@ $joueurs = getJoueurs($langue);
                 <textarea id="valueContactForm" ></textarea>
               </div>
             </div>
-            <div class="row right">        
-                <button class="btn waves-effect waves-light" type="submit" name="action">Enregistrer                  
-                </button>        
+            <div class="row right">
+                <button class="btn waves-effect waves-light" type="submit" name="action">Enregistrer
+                </button>
                 <a onCLick="$('#modalContactForm').closeModal();" class="waves-effect waves-green btn-flat">Annuler</a>
             </div>
             <input type="hidden" id="idContactForm" name="idContactForm" value=""/>
@@ -199,7 +209,20 @@ $joueurs = getJoueurs($langue);
       </div>
     </div>
     <div id="admin3" class="col s12">
-
+      <div class="row margin-top">
+        <center>
+          <span style="padding-right:15px">Nombre maximum de colonnes</span>
+          <a onClick="removeEngagementsNumber()" class="btn-floating btn-small waves-effect waves-light teal"><i class="material-icons">remove</i></a>
+          <a class="btn-flat">
+            <span id="numberEngagement" style="font-size:2.5rem">
+              <?php
+                echo $engagementsNumber;
+              ?>
+            </span>
+          </a>
+          <a onClick="addEngagementsNumber()" class="btn-floating btn-small waves-effect waves-light teal"><i class="material-icons">add</i></a>
+        </center>
+      </div>
       <div class="row">
       <?php
         foreach($engagements as $engagement) {
@@ -207,15 +230,15 @@ $joueurs = getJoueurs($langue);
             echo "<div class=\"card\">";
               echo "<div class=\"card-content\" id=\"engagement".$engagement['idengagement']."\">";
                 echo "<i class=\"material-icons prefix\">".html_entity_decode($engagement['icone'])."</i>";
-                echo "<span class=\"card-title\">".html_entity_decode($engagement['titre'])."</span>";     
+                echo "<span class=\"card-title\">".html_entity_decode($engagement['titre'])."</span>";
                 echo "<div>";
                   echo html_entity_decode($engagement['block']);
                 echo "</div>";
               echo "</div>";
               echo "<div class=\"card-action\">";
-                echo "<a class=\"waves-effect black-text waves-green btn-flat\" 
+                echo "<a class=\"waves-effect black-text waves-green btn-flat\"
                   onClick=\"editEngagementForm(".$engagement['idengagement'].")\">Edition</a>";
-                echo "<a class=\"waves-effect black-text waves-green btn-flat\" 
+                echo "<a class=\"waves-effect black-text waves-green btn-flat\"
                   onClick=\"deleteEngagementForm(".$engagement['idengagement'].")\">Suppression</a>";
           echo "</div></div></div>";
         }
@@ -223,7 +246,7 @@ $joueurs = getJoueurs($langue);
       </div>
       <div id="modalEngagementForm" class="modal">
         <div class="modal-content">
-          <h5 class="white-text center-align card-panel teal">Engagement</h5>      
+          <h5 class="white-text center-align card-panel teal">Engagement</h5>
           <form class="col s12" id="engagementFormAdmin">
             <div class="row">
               <div class="input-field col s12">
@@ -232,7 +255,7 @@ $joueurs = getJoueurs($langue);
               </div>
             </div>
              <div class="row">
-              <div class="input-field col s12">              
+              <div class="input-field col s12">
                 <input style="width:95%" onBlur="updateIcon()" id="iconeEngagementForm" type="text" class="validate" required>
                 <label for="iconeEngagementForm">icone</label>
                 <i id="iconEngagement" class="material-icons prefix"></i>
@@ -243,10 +266,10 @@ $joueurs = getJoueurs($langue);
                 <textarea id="valueEngagementForm" ></textarea>
               </div>
             </div>
-            <div class="row right">        
-                <button class="btn waves-effect waves-light" type="submit" name="action">Enregistrer                  
-                </button>        
-                <a class="waves-effect waves-green btn-flat" 
+            <div class="row right">
+                <button class="btn waves-effect waves-light" type="submit" name="action">Enregistrer
+                </button>
+                <a class="waves-effect waves-green btn-flat"
                    href="https://design.google.com/icons/#ic_delete_forever"
                    target="_blank">Icones</a>
                 <a onCLick="$('#modalEngagementForm').closeModal();" class="waves-effect waves-green btn-flat">Annuler</a>
@@ -258,20 +281,20 @@ $joueurs = getJoueurs($langue);
       </div>
       <div class="row">
         <form class="col s12">
-          <a class="waves-effect waves-light btn" onClick="addEngagementForm()">Ajouter</a>    
+          <a class="waves-effect waves-light btn" onClick="addEngagementForm()">Ajouter</a>
         </form>
       </div>
     </div>
     <div id="admin4" class="col s12">
-      
+
 
     </div>
     <div id="admin5" class="col s12">
         <div class="row">
-        <?php        
-        foreach ( $joueurs as $joueur) {        
+        <?php
+        foreach ( $joueurs as $joueur) {
           echo "<div class=\"col s12\">";
-            echo "<div class=\"card\">";            
+            echo "<div class=\"card\">";
               echo "<div class=\"card-image\" id=\"imageJoueur".$joueur['idjoueur']."\">";
                 echo "<img class=\"activator\" src=\"upload/".$joueur['image']."\" style=\"width:auto;padding:15px\"/>";
               echo "</div>";
@@ -282,23 +305,23 @@ $joueurs = getJoueurs($langue);
                 echo "<p>".html_entity_decode($joueur['description'])."</p>";
               echo "</div>";
               echo "<div class=\"card-action\">";
-                echo "<a class=\"waves-effect black-text waves-green btn-flat\" 
+                echo "<a class=\"waves-effect black-text waves-green btn-flat\"
                   onClick=\"editJoueurForm(".$joueur['idjoueur'].")\">Edition</a>";
-                echo "<a class=\"waves-effect black-text waves-green btn-flat\" 
+                echo "<a class=\"waves-effect black-text waves-green btn-flat\"
                   onClick=\"deleteJoueurForm(".$joueur['idjoueur'].")\">Suppression</a>";
           echo "</div></div></div>";
         }
-        ?>           
+        ?>
         </div>
       <div class="row">
         <form class="col s12">
-          <a class="waves-effect waves-light btn" onClick="addJoueurForm()">Ajouter</a>    
+          <a class="waves-effect waves-light btn" onClick="addJoueurForm()">Ajouter</a>
         </form>
       </div>
 
       <div id="modalJoueurForm" class="modal">
         <div class="modal-content">
-          <h5 class="white-text center-align card-panel teal">Joueurs</h5>      
+          <h5 class="white-text center-align card-panel teal">Joueurs</h5>
           <form class="col s12" id="joueurFormAdmin" enctype="multipart/form-data">
             <div class="row">
               <div class="input-field col s12">
@@ -324,22 +347,22 @@ $joueurs = getJoueurs($langue);
               </div>
               <div class="file-path-wrapper">
                 <input id="imageJoueur" class="file-path validate" type="text">
-              </div>              
+              </div>
               <div class="progress">
                   <div id="progress-image" class="determinate"></div>20%
-              </div>        
+              </div>
             </div>
             <div class="row">
               <div class="input-field col s12">
                 <textarea id="valueJoueurForm" ></textarea>
               </div>
             </div>
-            <div class="row right">        
-                <button class="btn waves-effect waves-light" type="submit" name="action">Enregistrer                  
-                </button>        
+            <div class="row right">
+                <button class="btn waves-effect waves-light" type="submit" name="action">Enregistrer
+                </button>
                 <a onCLick="$('#modalJoueurForm').closeModal();" class="waves-effect waves-green btn-flat">Annuler</a>
             </div>
-            <input type="hidden" id="idJoueurForm" name="idJoueurForm" value=""/>          
+            <input type="hidden" id="idJoueurForm" name="idJoueurForm" value=""/>
             <input type="hidden" id="actionJoueurForm" name="actionJoueurForm" value=""/>       <input type="hidden" name="MAX_FILE_SIZE" value="500000"/>
           </form>
         </div>
@@ -347,9 +370,9 @@ $joueurs = getJoueurs($langue);
     </div>
 
     </div>
-    
+
     <div id="admin6" class="col s12">
-      
+
 
     </div>
   </div>

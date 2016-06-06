@@ -3,10 +3,7 @@ session_start();
 header("Content-Type: text/json; charset=utf8");
 include('checkLogin.php');
 
-nomjoueur, lienjoueur,ciblejoueur, block, langue
-
-if( !isSet($_POST['nomjoueur']) ||
-    !isSet($_POST['block']) ||
+if( !isSet($_POST['number']) ||
     !isSet($_SESSION['login']) ||
     !isSet($_SESSION['password']) ||
     !checkLogin($_SESSION['login'], $_SESSION['password'])) {
@@ -19,28 +16,28 @@ if( !isSet($_POST['nomjoueur']) ||
 }
 
 try {
-	ob_start();
+    $langue = (isSet($_POST['langue']) && !empty($_POST['langue']))? $_POST['langue'] : "fr";
+  	ob_start();
     include(__DIR__.'/../admin/config.php');
 
-    $titreSafe = htmlentities($_POST['titre']);
-    $iconeSafe = htmlentities($_POST['icone']);
-    $blockSafe = htmlentities($_POST['block']);
-    $langue = (isSet($_POST['langue']) && !empty($_POST['langue']))? $_POST['langue'] : "fr";
-    $sql = "INSERT INTO engagement(titre,icone,block,langue) VALUE ('".$titreSafe."', '".$iconeSafe."', '".$blockSafe."', '".$langue."')";
+    $numberSafe = htmlentities($_POST['number']);
 
-	$res = mysqli_query($dbC, $sql);
-    $idEngagement = mysqli_insert_id($dbC);
+    $sql = "UPDATE pageelement SET value = '".$numberSafe."' where
+    langue = '".$langue."' and label='engagement_number'";
+
+	  $res = mysqli_query($dbC, $sql);
+
     ob_end_flush();
 
     if($res) {
 	  echo json_encode(array(
         'success' => true,
-        'id' => $idEngagement
+        'sql' => $sql
        ));
     } else {
 	    echo json_encode(array(
 	        'success' => false,
-            'reason' => $sql
+          'reason' => mysqli_error($dbC)
 	    ));
    }
 

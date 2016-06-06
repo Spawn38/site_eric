@@ -3,11 +3,11 @@ session_start();
 header("Content-Type: text/json; charset=utf8");
 include('checkLogin.php');
 
-if( !isSet($_POST['nomjoueur']) || 
-    !isSet($_POST['block']) || 
-    !isSet($_SESSION['login']) || 
-    !isSet($_SESSION['password']) || 
-    !checkLogin($_SESSION['login'], $_SESSION['password'])) {  
+if( !isSet($_POST['nomjoueur']) ||
+    !isSet($_POST['block']) ||
+    !isSet($_SESSION['login']) ||
+    !isSet($_SESSION['password']) ||
+    !checkLogin($_SESSION['login'], $_SESSION['password'])) {
 
     echo json_encode(array(
         'success' => false,
@@ -16,7 +16,7 @@ if( !isSet($_POST['nomjoueur']) ||
     return;
 }
 
-try {			
+try {
 	ob_start();
     include(__DIR__.'/../admin/config.php');
 
@@ -25,15 +25,15 @@ try {
     $lienSafe = htmlentities($_POST['lienjoueur']);
     $cibleSafe = htmlentities($_POST['ciblejoueur']);
     $imageSafe = htmlentities($_POST['imagejoueur']);
-    $langue = isSet($_POST['langue'])?$_POST['langue']:"fr";
+    $langue = (isSet($_POST['langue']) && !empty($_POST['langue']))? $_POST['langue'] : "fr";
 
     $sql = "INSERT INTO joueurs (nom, description, lien, cible, image, langue) VALUES
-    ('".$nomSafe."', '".$blockSafe."', '".$lienSafe."', 
+    ('".$nomSafe."', '".$blockSafe."', '".$lienSafe."',
     '".$cibleSafe."', '".$imageSafe."', '".$_POST['langue']."')";
 
 
-	$res = mysqli_query($dbC, $sql);         
-    $idJoueur = mysqli_insert_id($dbC);    
+	$res = mysqli_query($dbC, $sql);
+    $idJoueur = mysqli_insert_id($dbC);
     ob_end_flush();
 
     if($res) {
@@ -47,7 +47,7 @@ try {
             'reason' => $sql
 	    ));
    }
-    	
+
 } catch(Exception $ex){
     echo json_encode(array(
         'success' => false,

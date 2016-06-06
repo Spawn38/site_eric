@@ -25,12 +25,12 @@ p {
   height: auto;
   color: rgba(255,255,255,.9);
 }
-  .parallax-container .section {
-    width: 100%;
-  }
+
+.parallax-container .section {
+  width: 100%;
+}
 
 @media only screen and (max-width : 992px) {
-
   #index-banner .section {
     top: 10%;
   }
@@ -45,6 +45,7 @@ p {
 .icon-block {
   padding: 0 15px;
 }
+
 .icon-block .material-icons {
   font-size: inherit;
 }
@@ -70,7 +71,7 @@ table a {
     -1px -1px 0 #000,
     1px -1px 0 #000,
     -1px 1px 0 #000,
-    1px 1px 0 #000;  
+    1px 1px 0 #000;
 }
 
 
@@ -86,7 +87,6 @@ table a {
     font-size:12px !important;
   }
 }
-
 
 .tabs .tab a {
   color : #009688 !important;
@@ -121,4 +121,3 @@ table.admin a {
   line-height: initial;
   padding : 5px 10px;
 }
-
