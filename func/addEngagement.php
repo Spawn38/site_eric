@@ -25,8 +25,10 @@ try {
     $titreSafe = htmlentities($_POST['titre']);
     $iconeSafe = htmlentities($_POST['icone']);
     $blockSafe = htmlentities($_POST['block']);
+    $imageSafe = htmlentities($_POST['image']);
     $langue = (isSet($_POST['langue']) && !empty($_POST['langue']))? $_POST['langue'] : "fr";
-    $sql = "INSERT INTO engagement(titre,icone,block,langue) VALUE ('".$titreSafe."', '".$iconeSafe."', '".$blockSafe."', '".$langue."')";
+    $sql = "INSERT INTO engagement(titre,icone,block,image,langue) VALUE
+    ('".$titreSafe."', '".$iconeSafe."', '".$blockSafe."', '".$imageSafe."', '".$langue."')";
 
 	$res = mysqli_query($dbC, $sql);
     $idEngagement = mysqli_insert_id($dbC);

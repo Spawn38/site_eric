@@ -2,6 +2,16 @@
   $(function(){
 
   	$('ul.tabs').tabs();
+    $(".sort-scroll-container").sortScroll({
+      animationDuration: 1000,// duration of the animation in ms
+      cssEasing: "ease-in-out",// easing type for the animation
+      keepStill: true,// if false the page doesn't scroll to follow the element
+      fixedElementsSelector: ""// a jQuery selector so that the plugin knows your fixed elements (like the fixed nav on the left)
+  });
+
+  $(".sort-scroll-container").on("sortScroll.sortEnd", function(event, element, initialOrder, destinationOrder){
+      handleBlockChangeOrder(element, initialOrder, destinationOrder);
+  });
 
   	$('#contactFormAdmin').on('submit', function(e){
 	    e.preventDefault();
@@ -25,9 +35,13 @@
         value = $('#simpelValueElementForm').val();
       }
 
-	    validEditElementForm($('#labelElementForm').val(),
-	    					value,
-	    					$('#langue').val());
+	    validEditElementForm(
+        $('#labelElementForm').val(),
+	    	value,
+	    	$('#langue').val(),
+        $('#simpleElementForm').val(),
+        $('#imageElementForm').val()
+      );
 	});
 
 	$('#engagementFormAdmin').on('submit', function(e){
@@ -37,6 +51,7 @@
 	    					$('#titreEngagementForm').val(),
 	    					$('#iconeEngagementForm').val(),
 	    					tinymce.get('valueEngagementForm').getContent(),
+                $('#fondEngagementForm').val(),
 	    					$('#langue').val());
 	    }
 	    else if($('#actionEngagementForm').val() == 'edit') {
@@ -45,6 +60,7 @@
 	    					$('#titreEngagementForm').val(),
 	    					$('#iconeEngagementForm').val(),
 	    					tinymce.get('valueEngagementForm').getContent(),
+                $('#fondEngagementForm').val(),
 	    					$('#langue').val());
 	    }
 	});
@@ -79,7 +95,7 @@
     	forced_root_block : "",
     	link_title: false,
     	plugins: [
-      	'autolink link hr anchor pagebreak',
+      	'autolink link hr anchor',
       	'nonbreaking',
       	'directionality paste'
     	]
@@ -92,7 +108,7 @@
     	forced_root_block : "",
     	link_title: false,
     	plugins: [
-      	'autolink link hr anchor pagebreak',
+      	'autolink link hr anchor',
       	'nonbreaking',
       	'directionality paste'
     	]
@@ -105,7 +121,7 @@
     	forced_root_block : "",
     	link_title: false,
     	plugins: [
-      	'autolink link hr anchor pagebreak',
+      	'autolink link hr anchor image',
       	'nonbreaking',
       	'directionality paste'
     	]
@@ -118,12 +134,25 @@
     	forced_root_block : "",
     	link_title: false,
     	plugins: [
-      	'autolink link hr anchor pagebreak',
+      	'autolink link hr anchor',
       	'nonbreaking',
       	'directionality paste'
     	]
 
   	});
+
+    tinymce.init({
+      selector: '#valueBlockForm',
+      menubar: false,
+      forced_root_block : "",
+      link_title: false,
+      plugins: [
+        'autolink link hr anchor',
+        'nonbreaking',
+        'directionality paste'
+      ]
+
+    });
 
   	  // Upload Plugin itself
     $('#file-upload').dmUploader({
@@ -173,7 +202,7 @@
   })
 })(jQuery);
 
-function supprContactForm(row, idContact) {
+function supprContactForm(idContact) {
 	var r = confirm("Confirmer la suppression :");
 	if(r == true) {
 		$.ajax({ url: '/func/deleteContact.php',
@@ -181,7 +210,7 @@ function supprContactForm(row, idContact) {
 	        type: 'post',
 	        success: function(output) {
 	        	if(output.success) {
-				    $("#contactRow"+row).fadeTo(300, 0, function () {
+				    $("#contact"+idContact).fadeTo(300, 0, function () {
 	        			$(this).remove();
 	    			});
 			        Materialize.toast('L\'élément a été supprimé', 4000);
@@ -239,9 +268,14 @@ function validEditContactForm(idContact,label,value) {
 	});
 }
 
-function validEditElementForm(label,value,langue) {
+function validEditElementForm(label,value,langue,simple,image) {
 	$.ajax({ url: '/func/editPageElements.php',
-        data: {label : label, value : value, langue : langue},
+        data: {
+          label : label,
+          value : value,
+          langue : langue,
+          simple : simple,
+          image : image},
         type: 'post',
         success: function(output) {
         	if(output.success) {
@@ -284,9 +318,10 @@ function deleteEngagementForm(idengagement) {
 	}
 }
 
-function validAddEngagementForm(titre, icone, block, langue) {
+function validAddEngagementForm(titre, icone, block, image, langue) {
 	$.ajax({ url: '/func/addEngagement.php',
-        data: {titre : titre, icone : icone, block : block, langue : langue},
+        data: {titre : titre, icone : icone, block : block, langue : langue,
+          image : image},
         type: 'post',
         success: function(output) {
         	if(output.success) {
@@ -305,9 +340,10 @@ function validAddEngagementForm(titre, icone, block, langue) {
 	});
 }
 
-function validEditEngagementForm(idengagement, titre, icone, block, langue) {
+function validEditEngagementForm(idengagement, titre, icone, block, image, langue) {
 $.ajax({ url: '/func/editEngagement.php',
-        data: {idengagement : idengagement, titre : titre, icone : icone, block : block, langue : langue},
+        data: {idengagement : idengagement, titre : titre, icone : icone,
+          block : block, langue : langue, image : image},
         type: 'post',
         success: function(output) {
         	if(output.success) {
@@ -388,9 +424,10 @@ function addContactForm() {
 	$('#actionContactForm').val('add');
 }
 
-function editElementForm( label, simple=0) {
+function editElementForm( label, simple=0,image=0) {
 	$('#modalElementForm').openModal();
   $('#simpleElementForm').val(simple);
+  $('#imageElementForm').val(image);
   if(simple==0) {
     $('#editComplex').show();
     $('#editSimple').hide();
@@ -398,7 +435,11 @@ function editElementForm( label, simple=0) {
   } else {
     $('#editSimple').show();
     $('#editComplex').hide();
-    $('#simpelValueElementForm').val($('#element'+label).html());
+    if (image==1) {
+      $('#simpelValueElementForm').val(htmlDecode($('#element'+label+'> img').attr( "src")));
+    } else {
+      $('#simpelValueElementForm').val(htmlDecode($('#element'+label).html()));
+    }
     $('#simpelValueElementForm').trigger('change');
   }
 	$('#labelElementForm').val(label);
@@ -406,7 +447,6 @@ function editElementForm( label, simple=0) {
 }
 
 function resetElementForm(label) {
-	alert ($('#langue').val());
 	$.ajax({ url: '/func/resetPageElements.php',
         data: {label : label, langue : $('#langue').val()},
         type: 'post',
@@ -433,12 +473,14 @@ function addEngagementForm() {
 	$('#titreEngagementForm').trigger('change');
 	$('#iconeEngagementForm').val('');
 	$('#iconeEngagementForm').trigger('change');
+  $('#fondEngagementForm').val('');
+	$('#fondEngagementForm').trigger('change');
 	tinymce.get('valueEngagementForm').setContent('');
 	$('#idEngagementForm').val('');
 	$('#actionEngagementForm').val('add');
 }
 
-function editEngagementForm(idengagement) {
+function editEngagementForm(idengagement,image) {
 	$('#modalEngagementForm').openModal();
 	$('#titreEngagementForm').val($('#engagement'+idengagement+'>span').html());
 	$('#titreEngagementForm').trigger('change');
@@ -446,10 +488,13 @@ function editEngagementForm(idengagement) {
 	$('#iconeEngagementForm').trigger('change');
 	$('#iconeEngagementForm').focus();
 	$('#iconeEngagementForm').blur();
+  $('#fondEngagementForm').val(htmlDecode(image));
+  $('#fondEngagementForm').trigger('change');
 	tinymce.get('valueEngagementForm').setContent($('#engagement'+idengagement+'>div').html());
 	$('#idEngagementForm').val(idengagement);
 	$('#actionEngagementForm').val('edit');
 }
+
 
 function addJoueurForm() {
 	$('#modalJoueurForm').openModal();
@@ -458,7 +503,6 @@ function addJoueurForm() {
 	$('#cibleJoueurForm').val('');
 	$('#imageJoueur').val('');
 	tinymce.get('valueJoueurForm').setContent('');
-	$('#actionJoueurForm').val('');
 	$('#actionJoueurForm').val('add');
 }
 
@@ -470,7 +514,7 @@ function editJoueurForm(idjoueur) {
 	$('#lienJoueurForm').trigger('change');
 	$('#cibleJoueurForm').val($('#joueur'+idjoueur+'>a').attr('href'));
 	$('#cibleJoueurForm').trigger('change');
-	$('#imageJoueur').val($('#imageJoueur'+idjoueur+'>img').attr('src').slice(7));
+	$('#imageJoueur').val($('#imageJoueur'+idjoueur+'>img').attr('src'));
 	$('#imageJoueur').trigger('change');
 	tinymce.get('valueJoueurForm').setContent($('#joueur'+idjoueur+'>p').html());
 	$('#idJoueurForm').val(idjoueur);
@@ -558,4 +602,12 @@ function logout() {
 
 function updateIcon() {
 	$('#iconEngagement').html($('#iconeEngagementForm').val());
+}
+
+function htmlDecode(value) {
+    return $("<div/>").html(value).text();
+}
+
+function htmlEncode(value) {
+    return $('<div/>').text(value).html();
 }

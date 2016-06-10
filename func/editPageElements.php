@@ -16,6 +16,8 @@ try {
 
     $valueSafe = htmlentities($_POST['value']);
     $labelSafe = htmlentities($_POST['label']);
+		$imageSafe = htmlentities($_POST['image']);
+		$simpleSafe = htmlentities($_POST['simple']);
     $langue = (isSet($_POST['langue']) && !empty($_POST['langue']))? $_POST['langue'] : "fr";
 
     if(!$valueSafe) {
@@ -29,7 +31,7 @@ try {
      		$sql="UPDATE pageelement SET value = '".$valueSafe."' WHERE
    				label = '".$labelSafe."' and  langue = '".$langue."'";
    		} else {
-   			$sql="INSERT INTO pageelement(value,label,langue) values ('".$valueSafe."','".$labelSafe."','".$langue."')";
+   			$sql="INSERT INTO pageelement(value,label,langue,image,simple) values ('".$valueSafe."','".$labelSafe."','".$langue."','".$imageSafe."','".$simpleSafe."')";
    		}
     }
 

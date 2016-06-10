@@ -4,7 +4,7 @@ var hidePopup = false;
   $(function(){
 
     $('.button-collapse').sideNav();
-    $('.parallax').parallax();    
+    $('.parallax').parallax();        
   	$('#contactForm').on('submit', function(e){
 	    e.preventDefault();
 
@@ -14,18 +14,18 @@ var hidePopup = false;
 
 		if(name == "") {
 		  Materialize.toast('Veuillez renseigner un nom !', 4000);
-		  $('#name').focus();	
+		  $('#name').focus();
 		  return false;
 		}
-		
+
 		if(email == "") {
 		  Materialize.toast('Veuillez renseigner un email !', 4000);
-		  $('#email').focus();	 
+		  $('#email').focus();
 		  return false;
 		}
 		if(message == "") {
 		  Materialize.toast('Veuillez renseigner un message !', 4000);
-		  $('#message').focus();	
+		  $('#message').focus();
 		  return false;
 		}
 
@@ -39,7 +39,7 @@ var hidePopup = false;
 			        $("#message").removeAttr('style');
 			        Materialize.toast('Le message a été envoyé', 4000);
 			    } else {
-			    	Materialize.toast('Une erreur est survenue', 4000);	
+			    	Materialize.toast('Une erreur est survenue', 4000);
 			    }
 			},
 	        error: function() {
@@ -51,18 +51,18 @@ var hidePopup = false;
 
 	 var $win = $(window);
 
-     $win.scroll(function () {                     
+     $win.scroll(function () {
          if ($win.height() + $win.scrollTop()+250
-                        > $(document).height()) {         	
+                        > $(document).height()) {
          	$('#messagepopup').hide();
      	}
         else if(!hidePopup){
-            $('#messagepopup').show();         
+            $('#messagepopup').show();
         }
      });
   }); // end of document ready
 }
-)(jQuery); 
+)(jQuery);
 
 function onHidePopup() {
 	hidePopup = true;
@@ -70,7 +70,7 @@ function onHidePopup() {
 }
 
 function openContact() {
-	$('#modalContact').openModal();          
+	$('#modalContact').openModal();
 }
 
 $(document).ready(function(){
@@ -80,5 +80,5 @@ $(document).ready(function(){
 function resetForm() {
 	$("#modalContact").closeModal();
 	$("#contactForm").get(0).reset();
-	$("#message").removeAttr('style');   
+	$("#message").removeAttr('style');
 }

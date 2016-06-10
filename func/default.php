@@ -4,6 +4,8 @@ function getDefaultValues() {
 
 	$tab = array();
 
+	$tab['logo'] = array('value' => htmlentities("http://res.cloudinary.com/sppa/image/upload/v1465317822/logo_rnckgh.png"), 'simple'=>'1' , 'image'=>'1');
+	$tab['img_banner'] = array('value' => htmlentities("http://res.cloudinary.com/sppa/image/upload/v1465442107/images5_mipvaz.jpg"), 'simple'=>'1' , 'image'=>'1');
 	$tab['titre'] =array('value'=> htmlentities("SSPA  - Solidary Sport Professional Association"), 'simple' => '1');
 	$tab['menu1'] =array('value'=>  htmlentities("Les joueurs"), 'simple' => '1');
 	$tab['menu2'] =array('value'=>  htmlentities("Les références"), 'simple' => '1');

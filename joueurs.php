@@ -27,25 +27,25 @@ $joueurs = getJoueurs($langue);
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>  
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
 <body>
   <nav class="white" role="navigation">
     <div class="nav-wrapper container">
       <a id="logo-container" href="/" class="brand-logo"><img id="logo" src="logo.png"/></a>
       <ul class="right hide-on-med-and-down">
-      <?php        
+      <?php
         echo "<li><a href=\"joueurs.php\">".html_entity_decode($pageElements['menu1'])."</a></li>";
         echo "<li><a href=\"#\">".html_entity_decode($pageElements['menu2'])."</a></li>";
         echo "<li><a href=\"#\">".html_entity_decode($pageElements['menu3'])."</a></li>";
-      ?>      
+      ?>
       </ul>
       <ul id="nav-mobile" class="side-nav">
-      <?php        
+      <?php
         echo "<li><a href=\"joueurs.php\">".html_entity_decode($pageElements['menu1'])."</a></li>";
         echo "<li><a href=\"#\">".html_entity_decode($pageElements['menu2'])."</a></li>";
         echo "<li><a href=\"#\">".html_entity_decode($pageElements['menu3'])."</a></li>";
-      ?>  
+      ?>
       </ul>
       <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
     </div>
@@ -53,7 +53,7 @@ $joueurs = getJoueurs($langue);
   <nav>
     <div class="nav-wrapper teal">
         <a href="#" class="brand-logo center white-text">
-        <?php 
+        <?php
           echo html_entity_decode($pageElements['menu1']);
         ?>
         </a>
@@ -61,14 +61,14 @@ $joueurs = getJoueurs($langue);
   </nav>
 
   <div class="row margin-top">
-  <?php  
+  <?php
   foreach($joueurs as $joueur) {
   ?>
     <div class="col l4 m6 s12">
       <div class="card">
         <div class="card-image waves-effect waves-block waves-light">
         <?php
-          echo "<img class=\"activator\" src=\"upload/".$joueur['image']."\" style=\"width:auto;padding:15px\">";
+          echo "<img class=\"activator\" src=\"".$joueur['image']."\" style=\"width:auto;padding:15px\">";
         ?>
         </div>
         <div class="card-content">
@@ -98,8 +98,8 @@ $joueurs = getJoueurs($langue);
         </div>
       </div>
     </div>
-  <?php     
-  } 
+  <?php
+  }
   ?>
   </div>
    <!--  Scripts-->
@@ -127,10 +127,10 @@ $joueurs = getJoueurs($langue);
            <?php
               echo html_entity_decode($pageElements['contact_titre']);
             ?>
-          
-          </h5>         
-          <table style="line-height: 0; white-space: nowrap;"> 
-            <?php            
+
+          </h5>
+          <table style="line-height: 0; white-space: nowrap;">
+            <?php
               foreach ($contactsArray as $contact) {
                 echo "<tr>";
                   echo "<td>";

@@ -25,9 +25,11 @@ try {
     $titreSafe = htmlentities($_POST['titre']);
     $iconeSafe = htmlentities($_POST['icone']);
     $blockSafe = htmlentities($_POST['block']);
+    $imageSafe = htmlentities($_POST['image']);
     $langue = isSet($_POST['langue'])?$_POST['langue']:"fr";
 
-    $sql = "UPDATE engagement SET titre = '".$titreSafe."', icone = '".$iconeSafe."', block = '".$blockSafe."' where
+    $sql = "UPDATE engagement SET titre = '".$titreSafe."', icone = '".$iconeSafe."',
+    block = '".$blockSafe."', image = '".$imageSafe."' where
     langue = '".$langue."' and idengagement = '".$_POST['idengagement']."'";
 
 	  $res = mysqli_query($dbC, $sql);

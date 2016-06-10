@@ -1,10 +1,22 @@
 <?php
-$dossier = '../upload/';
+
+include(__DIR__.'/cloudinary/Cloudinary.php');
+include(__DIR__.'/cloudinary/Uploader.php');
+include(__DIR__.'/cloudinary/Api.php');
+//include(__DIR__.'/../admin/cloudinaryAdmin.php');
+
+\Cloudinary::config(array(
+  "cloud_name" => "sppa",
+  "api_key" => "635626379662167",
+  "api_secret" => "UG_Xbzz5FVW-d_5RS2BnXtfI1XQ"
+));
+
+
 $fichier = basename($_FILES['filejoueur']['name']);
 $taille_maxi = 500000;
 $taille = filesize($_FILES['filejoueur']['tmp_name']);
 $extensions = array('.png', '.gif', '.jpg', '.jpeg');
-$extension = strrchr($_FILES['filejoueur']['name'], '.'); 
+$extension = strrchr($_FILES['filejoueur']['name'], '.');
 //Début des vérifications de sécurité...
 if(!in_array($extension, $extensions)) //Si l'extension n'est pas dans le tableau
 {
@@ -16,14 +28,12 @@ if($taille>$taille_maxi)
 }
 if(!isset($erreur)) //S'il n'y a pas d'erreur, on upload
 {
-     //On formate le nom du fichier ici...
-     $fichier = strtr($fichier, 
-          'ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïðòóôõöùúûüýÿ', 
-          'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy');
-     $fichier = preg_replace('/([^.a-z0-9]+)/i', '-', $fichier);
-     if(move_uploaded_file($_FILES['filejoueur']['tmp_name'], $dossier . $fichier)) //Si la fonction renvoie TRUE, c'est que ça a fonctionné...
+
+     $cloudUpload = \Cloudinary\Uploader::upload($_FILES['filejoueur']['tmp_name']);
+
+     if($cloudUpload) //Si la fonction renvoie TRUE, c'est que ça a fonctionné...
      {
-		echo json_encode(array('status' => 'ok', 'filename' => $fichier));
+		     echo json_encode(array('status' => 'ok', 'filename' => print_r($cloudUpload['url'],true)));
      }
      else //Sinon (la fonction renvoie FALSE).
      {

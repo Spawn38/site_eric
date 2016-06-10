@@ -23,6 +23,10 @@ $engagementsNumber = getEngagementsNumber();
 
 include(__DIR__.'/func/getJoueurs.php');
 $joueurs = getJoueurs($langue);
+
+include(__DIR__.'/func/getBlocks.php');
+$blockArray = getBlocks($langue);
+
 ?>
 
 <!DOCTYPE html>
@@ -30,8 +34,11 @@ $joueurs = getJoueurs($langue);
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-  <title>SPRA - Association spécialisée en Conseil et Management - Admin</title>
-
+  <title>
+  <?php
+    echo html_entity_decode($pageElements['titre']['value'])." - admin";
+  ?>
+  </title>
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
@@ -87,7 +94,7 @@ $joueurs = getJoueurs($langue);
       <table class="bordered highlight admin"
         style="line-height:normal;color:black;margin:15px;width:100%"
         id="tabContact">
-       <thead>
+        <thead>
           <tr>
             <th data-field="id">Element</th>
             <th data-field="name">Valeur</th>
@@ -96,18 +103,23 @@ $joueurs = getJoueurs($langue);
         </thead>
         <tbody>
         <?php
-
         foreach ( $pageElements as $key => $element) {
-          echo "<tr>";
-          echo "<td>".html_entity_decode($key)."</td>";
-          echo "<td style=\"white-space: pre-wrap; width:60%\" id=\"element".html_entity_decode($key)."\">".html_entity_decode($element['value'])."</td>";
-          echo "<td>";
-            echo "<a class=\"waves-effect waves-light btn\" style=\"margin-right:15px\"
-              onClick=\"editElementForm('".htmlentities($key)."','".$element['simple']."')\">Edit</a>";
-            echo "<a class=\"waves-effect waves-light btn\"
-              onClick=\"resetElementForm('".htmlentities($key)."')\">Reset</a>";
-          echo "</td>";
-          echo "</tr>";
+          echo '<tr>';
+            echo '<td>'.html_entity_decode($key).'</td>';
+            echo '<td style="white-space: pre-wrap; width:60%" id="element"'.html_entity_decode($key).'">';
+              if($element['image']==1) {
+                echo '<img src="'.html_entity_decode($element['value']).'" class="logo"/>';
+              } else {
+                echo html_entity_decode($element['value']);
+              }
+            echo '</td>';
+            echo '<td>';
+              echo "<a class=\"waves-effect waves-light btn\" style=\"margin-right:15px\"
+                onClick=\"editElementForm('".htmlentities($key)."','".$element['simple']."','".$element['image']."')\">Edit</a>";
+              echo "<a class=\"waves-effect waves-light btn\"
+                onClick=\"resetElementForm('".htmlentities($key)."')\">Reset</a>";
+            echo '</td>';
+          echo '</tr>';
         }
         ?>
         </tbody>
@@ -137,9 +149,10 @@ $joueurs = getJoueurs($langue);
             <div class="row right">
                 <button class="btn waves-effect waves-light" type="submit" name="action">Enregistrer
                 </button>
-                <a onCLick="$('#modalElementForm').closeModal();" class="waves-effect waves-green btn-flat">Annuler</a>
+                <a onCLick="$('#modalElementForm').closeModal();" class="waves-effect waves-teal btn-flat">Annuler</a>
             </div>
             <input type="hidden" id="simpleElementForm" name="simpleElementForm" value=""/>
+            <input type="hidden" id="imageElementForm" name="imageElementForm" value=""/>
             <input type="hidden" id="idElementForm" name="idElementForm" value=""/>
           </form>
         </div>
@@ -150,7 +163,7 @@ $joueurs = getJoueurs($langue);
       <table class="bordered highlight admin"
         style="line-height:normal;color:black;margin:15px;width:100%"
         id="tabContact">
-       <thead>
+        <thead>
           <tr>
             <th data-field="id">Label</th>
             <th data-field="name">Valeur</th>
@@ -159,19 +172,22 @@ $joueurs = getJoueurs($langue);
         </thead>
         <tbody>
         <?php
-        $indexContact = 0;
+
         foreach ( $contacts as $key => $value) {
-          echo "<tr id=\"contactRow".$indexContact."\">";
-          echo "<td>".html_entity_decode($value["label"])."</td>";
-          echo "<td style=\"white-space: pre-wrap; width:60%\">".html_entity_decode($value["value"])."</td>";
-          echo "<td>";
-            echo "<a class=\"waves-effect waves-light btn\" style=\"margin-right:15px\"
-              onClick=\"editContactForm(".htmlentities($value["idcontact"]).",'".htmlentities($value["label"])."','".$value["value"]."')\"
-            >Edit</a>";
-            echo "<a class=\"waves-effect waves-light btn\" onClick=\"supprContactForm(".$indexContact.",".$value["idcontact"].")\">Suppr</a>";
-          echo "</td>";
+          echo '<tr id="contact'.$value["idcontact"].'">';
+            echo '<td>';
+              echo html_entity_decode($value["label"]);
+            echo '</td>';
+            echo '<td style="white-space: pre-wrap; width:60%">';
+              echo html_entity_decode($value["value"]);
+            echo '</td>';
+            echo '<td>';
+              echo "<a class=\"waves-effect waves-light btn\" style=\"margin-right:15px\"
+                onClick=\"editContactForm(".htmlentities($value["idcontact"]).",'".htmlentities($value["label"])."','".$value["value"]."')\"
+              >Edit</a>";
+              echo "<a class=\"waves-effect waves-light btn\" onClick=\"supprContactForm(".$value["idcontact"].")\">Suppr</a>";
+            echo "</td>";
           echo "</tr>";
-          $indexContact++;
         }
         ?>
         </tbody>
@@ -200,7 +216,7 @@ $joueurs = getJoueurs($langue);
             <div class="row right">
                 <button class="btn waves-effect waves-light" type="submit" name="action">Enregistrer
                 </button>
-                <a onCLick="$('#modalContactForm').closeModal();" class="waves-effect waves-green btn-flat">Annuler</a>
+                <a onCLick="$('#modalContactForm').closeModal();" class="waves-effect waves-teal btn-flat">Annuler</a>
             </div>
             <input type="hidden" id="idContactForm" name="idContactForm" value=""/>
             <input type="hidden" id="actionContactForm" name="actionContactForm" value=""/>
@@ -226,9 +242,22 @@ $joueurs = getJoueurs($langue);
       <div class="row">
       <?php
         foreach($engagements as $engagement) {
+
+          $idEng = "engagement".$engagement['idengagement'];
+          if($engagement['image']!="") {
+            echo "<style>";
+              echo "#".$idEng.":before {";
+              echo "background-image: url('".html_entity_decode($engagement['image'])."') }";
+            echo "</style>";
+          }
+
           echo "<div class=\"col s12\">";
             echo "<div class=\"card\">";
-              echo "<div class=\"card-content\" id=\"engagement".$engagement['idengagement']."\">";
+            if($engagement['image']!="") {
+              echo "<div class=\"card-content fond\" id=\"".$idEng."\">";
+            } else {
+              echo "<div class=\"card-content\" id=\"".$idEng."\">";
+            }
                 echo "<i class=\"material-icons prefix\">".html_entity_decode($engagement['icone'])."</i>";
                 echo "<span class=\"card-title\">".html_entity_decode($engagement['titre'])."</span>";
                 echo "<div>";
@@ -236,9 +265,9 @@ $joueurs = getJoueurs($langue);
                 echo "</div>";
               echo "</div>";
               echo "<div class=\"card-action\">";
-                echo "<a class=\"waves-effect black-text waves-green btn-flat\"
-                  onClick=\"editEngagementForm(".$engagement['idengagement'].")\">Edition</a>";
-                echo "<a class=\"waves-effect black-text waves-green btn-flat\"
+                echo "<a class=\"waves-effect black-text waves-teal btn-flat\"
+                  onClick=\"editEngagementForm(".$engagement['idengagement'].",'".$engagement['image']."')\">Edition</a>";
+                echo "<a class=\"waves-effect black-text waves-teal btn-flat\"
                   onClick=\"deleteEngagementForm(".$engagement['idengagement'].")\">Suppression</a>";
           echo "</div></div></div>";
         }
@@ -254,11 +283,17 @@ $joueurs = getJoueurs($langue);
                 <label for="titreEngagementForm">titre</label>
               </div>
             </div>
-             <div class="row">
+            <div class="row">
               <div class="input-field col s12">
                 <input style="width:95%" onBlur="updateIcon()" id="iconeEngagementForm" type="text" class="validate" required>
                 <label for="iconeEngagementForm">icone</label>
                 <i id="iconEngagement" class="material-icons prefix"></i>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="fondEngagementForm" type="text" class="validate">
+                <label for="fondEngagementForm">image fond (opacité à effectuer sur l'image)</label>
               </div>
             </div>
             <div class="row">
@@ -269,10 +304,10 @@ $joueurs = getJoueurs($langue);
             <div class="row right">
                 <button class="btn waves-effect waves-light" type="submit" name="action">Enregistrer
                 </button>
-                <a class="waves-effect waves-green btn-flat"
+                <a class="waves-effect waves-teal btn-flat"
                    href="https://design.google.com/icons/#ic_delete_forever"
                    target="_blank">Icones</a>
-                <a onCLick="$('#modalEngagementForm').closeModal();" class="waves-effect waves-green btn-flat">Annuler</a>
+                <a onCLick="$('#modalEngagementForm').closeModal();" class="waves-effect waves-teal btn-flat">Annuler</a>
             </div>
             <input type="hidden" id="idEngagementForm" name="idEngagementForm" value=""/>
             <input type="hidden" id="actionEngagementForm" name="actionEngagementForm" value=""/>
@@ -285,9 +320,109 @@ $joueurs = getJoueurs($langue);
         </form>
       </div>
     </div>
-    <div id="admin4" class="col s12">
+    <div id="admin4" class="row">
+      <div class="col s12 sort-scroll-container" data-animation-duration="1000" data-css-easing="ease-in-out" data-keep-still=true data-fixed-elements-selector=".navigation">
+        <style>
+        <?php
+        foreach ( $blockArray as $block) {
+          if($block['type']==1) {
+            echo '#block'.$block['idblock'].':before';
+            echo "{\n";
+              echo "background-image: url('".html_entity_decode($block['image'])."')";
+            echo "}\n";
+          }
+        }
+        ?>
+        </style>
+        <?php
+        foreach ( $blockArray as $block) {
+          $fondAdmin ='';
+          if($block['type']==1) {
+            $fondAdmin = 'fondAdmin';
+          }
 
 
+            echo '<div class="sort-scroll-element card noBackGround">';
+              echo '<input type="hidden" id="idBlock" value="'.$block['idblock'].'"/>';
+              echo '<div class="center card-content '.$fondAdmin.'" id="block'.$block['idblock'].'">';
+                if($block['type']==1) {
+                  echo '<h4 class="textImage">'.html_entity_decode($block['texte']).'</h4>';
+                } else {
+                  echo '<span class="card-title">'.html_entity_decode($block['titre']).'</span>';
+                  echo '<div>'.html_entity_decode($block['texte']).'</div>';
+                }
+              echo '</div>';
+              echo '<div class="card-action backGroundWhite">';
+                echo '<a class="waves-effect black-text waves-teal btn-flat" ';
+                  echo "onClick=\"editBlockForm(".$block['idblock'].", ".$block['type'].", '".$block['image']."')\"";
+                  echo '>Edition</a>';
+                echo '<a class="waves-effect black-text waves-teal btn-flat" ';
+                  echo "onClick=\"deleteBlockForm(".$block['idblock'].")\"";
+                  echo '>Suppression</a>';
+                echo '<a class="sort-scroll-button-up"><i class="material-icons">arrow_upward</i></a>';
+                echo '<a class="sort-scroll-button-down"><i class="material-icons">arrow_downward</i></a>';
+              echo '</div>';
+            echo '</div>';
+
+        }
+        ?>
+      </div>
+      <div class="row">
+        <form class="col s12">
+          <a class="waves-effect waves-light btn" onClick="addBlockForm()">Ajouter</a>
+        </form>
+      </div>
+      <div id="modalBlockForm" class="modal">
+        <div class="modal-content">
+          <h5 class="white-text center-align card-panel teal">Blocks</h5>
+          <form class="col s12" id="joueurFormAdmin" enctype="multipart/form-data">
+            <div class="row">
+              <div class="switch">
+                <label>
+                    Texte
+                  <input type="checkbox" id="typeBlock" onClick="changeTypeBlock()">
+                  <span class="lever"></span>
+                    Image
+                </label>
+              </div>
+            </div>
+            <div id="blockImage">
+              <div class="row">
+                <div class="input-field col s12">
+                  <input id="fondBlockForm" type="text" class="validate">
+                  <label for="fondBlockForm">image fond (opacité automatique sur l'image)</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                  <textarea id="textBlockForm" class="validate materialize-textarea"></textarea>
+                  <label for="textBlockForm">Texte</label>
+                </div>
+              </div>
+            </div>
+            <div id="blockTexte">
+              <div class="row">
+                <div class="input-field col s12">
+                  <input id="titreBlockForm" type="text" class="validate">
+                  <label for="titreBlockForm">Titre</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                  <textarea id="valueBlockForm" ></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="row right">
+                <button class="btn waves-effect waves-light" type="submit" name="action">Enregistrer
+                </button>
+                <a onCLick="$('#modalBlockForm').closeModal();" class="waves-effect waves-teal btn-flat">Annuler</a>
+            </div>
+            <input type="hidden" id="idBlockForm" name="idBlockForm" value=""/>
+            <input type="hidden" id="actionBlockForm" name="actionBlockForm" value=""/>
+          </form>
+        </div>
+      </div>
     </div>
     <div id="admin5" class="col s12">
         <div class="row">
@@ -296,7 +431,7 @@ $joueurs = getJoueurs($langue);
           echo "<div class=\"col s12\">";
             echo "<div class=\"card\">";
               echo "<div class=\"card-image\" id=\"imageJoueur".$joueur['idjoueur']."\">";
-                echo "<img class=\"activator\" src=\"upload/".$joueur['image']."\" style=\"width:auto;padding:15px\"/>";
+                echo "<img class=\"activator\" src=\"".$joueur['image']."\" style=\"width:auto;padding:15px\"/>";
               echo "</div>";
               echo "<div class=\"card-content \" id=\"joueur".$joueur['idjoueur']."\">";
                 echo "<span class=\"card-title\">".html_entity_decode($joueur['nom'])."</span>";
@@ -305,9 +440,9 @@ $joueurs = getJoueurs($langue);
                 echo "<p>".html_entity_decode($joueur['description'])."</p>";
               echo "</div>";
               echo "<div class=\"card-action\">";
-                echo "<a class=\"waves-effect black-text waves-green btn-flat\"
+                echo "<a class=\"waves-effect black-text waves-teal btn-flat\"
                   onClick=\"editJoueurForm(".$joueur['idjoueur'].")\">Edition</a>";
-                echo "<a class=\"waves-effect black-text waves-green btn-flat\"
+                echo "<a class=\"waves-effect black-text waves-teal btn-flat\"
                   onClick=\"deleteJoueurForm(".$joueur['idjoueur'].")\">Suppression</a>";
           echo "</div></div></div>";
         }
@@ -360,7 +495,7 @@ $joueurs = getJoueurs($langue);
             <div class="row right">
                 <button class="btn waves-effect waves-light" type="submit" name="action">Enregistrer
                 </button>
-                <a onCLick="$('#modalJoueurForm').closeModal();" class="waves-effect waves-green btn-flat">Annuler</a>
+                <a onCLick="$('#modalJoueurForm').closeModal();" class="waves-effect waves-teal btn-flat">Annuler</a>
             </div>
             <input type="hidden" id="idJoueurForm" name="idJoueurForm" value=""/>
             <input type="hidden" id="actionJoueurForm" name="actionJoueurForm" value=""/>       <input type="hidden" name="MAX_FILE_SIZE" value="500000"/>
@@ -384,7 +519,9 @@ $joueurs = getJoueurs($langue);
   <script src="js/jquery-2.2.4.min.js"></script>
   <script src='js/tinymce.min.js'></script>
   <script src="js/materialize.min.js"></script>
-  <script src="js/admininit.js"></script>
   <script src="js/dmuploader.min.js"></script>
+  <script src="js/jquery.sortScroll.min"></script>
+  <script src="js/admininit.js"></script>
+  <script src="js/blocks.js"></script>
   </body>
 </html>
