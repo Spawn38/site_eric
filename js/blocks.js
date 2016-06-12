@@ -7,6 +7,7 @@ function addBlockForm() {
   tinymce.get('valueBlockForm').setContent('');
   $('#idBlockForm').val(-1);
 	$('#actionBlockForm').val('add');
+	changeTypeBlock();
 }
 
 function editBlockForm(idBlock, typeBlock, image) {
@@ -66,7 +67,7 @@ function changeTypeBlock() {
 }
 
 function handleBlockChangeOrder(element, initialOrder, destinationOrder) {
-  var idBlock = element.find('input#idBlock').val();  
+  var idBlock = element.find('input#idBlock').val();
   $.ajax({ url: '/func/changeOrderBlock.php',
         data: {
           idBlock : idBlock,
@@ -88,4 +89,63 @@ function handleBlockChangeOrder(element, initialOrder, destinationOrder) {
             Materialize.toast('Une erreur est survenue', 4000);
         }
   });
+}
+
+function validAddBlockForm(typeBlock, fondBlockForm, textBlockForm,
+				titreBlockForm, valueBlockForm, langue) {
+	$.ajax({ url: '/func/addBlock.php',
+				data: {
+					typeBlock : typeBlock,
+					fondBlockForm : fondBlockForm,
+					textBlockForm : textBlockForm,
+				  titreBlockForm : titreBlockForm,
+					valueBlockForm : valueBlockForm,
+					langue : langue
+				},
+				type: 'post',
+				success: function(output) {
+					console.log(output);
+					if(output.success) {
+						Materialize.toast('L\'élément a été ajouté', 4000);
+						$(location).attr('href','admini.php?onglet=3')
+				} else {
+					console.log(output);
+					Materialize.toast('Une erreur est survenue', 4000);
+				}
+		},
+				error: function(output) {
+					console.log(output);
+						Materialize.toast('Une erreur est survenue', 4000);
+				}
+	});
+}
+
+function validEditBlockForm(idBlock, typeBlock, fondBlockForm, textBlockForm,
+				titreBlockForm, valueBlockForm, langue) {
+	$.ajax({ url: '/func/editBlock.php',
+				data: {
+					idBlock : idBlock,
+					typeBlock : typeBlock,
+					fondBlockForm : fondBlockForm,
+					textBlockForm : textBlockForm,
+				  titreBlockForm : titreBlockForm,
+					valueBlockForm : valueBlockForm,
+					langue : langue
+				},
+				type: 'post',
+				success: function(output) {
+					console.log(output);
+					if(output.success) {
+						Materialize.toast('L\'élément a été modifié', 4000);
+						$(location).attr('href','admini.php?onglet=3')
+				} else {
+					console.log(output);
+					Materialize.toast('Une erreur est survenue', 4000);
+				}
+		},
+				error: function(output) {
+					console.log(output);
+						Materialize.toast('Une erreur est survenue', 4000);
+				}
+	});
 }

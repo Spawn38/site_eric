@@ -10,22 +10,11 @@ include(__DIR__.'/func/default.php');
 include(__DIR__.'/func/getPageElements.php');
 $pageElements = getPageElements($langue, getDefaultValues());
 
-include(__DIR__.'/func/getEngagements.php');
-$engagementsArray = getEngagements($langue);
-
-include(__DIR__.'/func/getEngagementsNumber.php');
-$engagementsColNumber = getEngagementsNumber();
-
-include(__DIR__.'/func/getBlocks.php');
-$blockArray = getBlocks($langue);
+include(__DIR__.'/func/getReferences.php');
+$references = getReferences($langue);
 
 include(__DIR__.'/blocks/nav.php');
-include(__DIR__.'/blocks/banner.php');
-include(__DIR__.'/blocks/contact.php');
-include(__DIR__.'/blocks/popup.php');
 include(__DIR__.'/blocks/footer.php');
-include(__DIR__.'/blocks/engagements.php');
-include(__DIR__.'/blocks/blocks.php');
 ?>
 
 <!DOCTYPE html>
@@ -47,21 +36,55 @@ include(__DIR__.'/blocks/blocks.php');
 </head>
 <body>
   <?php
-    navigation($pageElements);
-    banner($pageElements);
-    engagements($pageElements, $engagementsArray, $engagementsColNumber);
-    blocks($blockArray);
-    footer($pageElements, $contactsArray);
-    popup($pageElements);
+    navigation($pageElements,'menu2');
   ?>
 
-  <!--  Scripts-->
+  <div class="valign-wrapper teal logo">
+    <div class="center-align fullwidth">
+      <a href="#" class=" brand-logo center white-text">
+      <?php
+        echo '<h4>'.html_entity_decode($pageElements['menu2']['value']).'</h4>';
+      ?>
+      </a>
+    </div>
+  </div>
+
+  <div class="row margin-top fullwidth">
+    <?php
+      echo '<p>'.html_entity_decode($pageElements['descr_menu2']['value']).'</p>';
+    ?>
+  </div>
+
+  <div class="row margin-top">
+  <?php
+  foreach($references as $reference) {
+  ?>
+    <div class="col l4 m6 s12">
+      <div class="card">
+        <div class="card-image waves-effect waves-block waves-light">
+        <?php
+          echo "<img class=\"activator\" src=\"".$reference['image']."\" style=\"width:auto;padding:15px\">";
+        ?>
+        </div>
+        <div class="card-content">
+          <p>
+          <?php
+            echo "<a target=\"_blank\" href=\"".html_entity_decode($references['texte'])."\">";
+          ?>
+          </p>
+        </div>
+      </div>
+    </div>
+  <?php
+  }
+  ?>
+  </div>
+  <?php
+      footer($pageElements, $contactsArray);
+  ?>
+   <!--  Scripts-->
   <script src="js/jquery-2.2.4.min.js"></script>
   <script src="js/materialize.min.js"></script>
   <script src="js/init.js"></script>
-
-  <?php
-    contact($pageElements);
-  ?>
-</body>
+  </body>
 </html>

@@ -3,5 +3,4 @@
 *.jpg
 *.png
 *.rtf
-!logo.png
-
+*.docx

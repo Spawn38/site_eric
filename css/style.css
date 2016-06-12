@@ -207,3 +207,7 @@ table.admin a {
     cursor: default;
     color: #ddd !important;
 }
+
+.fullwidth {
+  width: 100%;
+}
