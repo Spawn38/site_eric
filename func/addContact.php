@@ -20,8 +20,8 @@ try {
 	ob_start();
     include(__DIR__.'/../admin/config.php');
 
-    $valueSafe = htmlentities($_POST['value']);
-    $labelSafe = htmlentities($_POST['label']);
+    $valueSafe = htmlspecialchars($_POST['value'], ENT_QUOTES);
+    $labelSafe = htmlspecialchars($_POST['label'], ENT_QUOTES);
     $langue = (isSet($_POST['langue']) && !empty($_POST['langue']))? $_POST['langue'] : "fr";
     $sql = "INSERT INTO contact(label,value,langue) VALUE ('".$labelSafe."', '".$valueSafe."', '".$langue."')";
 

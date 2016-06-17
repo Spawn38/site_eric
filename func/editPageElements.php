@@ -14,10 +14,10 @@ try {
 	ob_start();
     include(__DIR__.'/../admin/config.php');
 
-    $valueSafe = htmlentities($_POST['value']);
-    $labelSafe = htmlentities($_POST['label']);
-		$imageSafe = htmlentities($_POST['image']);
-		$simpleSafe = htmlentities($_POST['simple']);
+    $valueSafe = htmlspecialchars($_POST['value'], ENT_QUOTES	);
+    $labelSafe = htmlspecialchars($_POST['label'], ENT_QUOTES	);
+		$imageSafe = htmlspecialchars($_POST['image'], ENT_QUOTES	);
+		$simpleSafe = htmlspecialchars($_POST['simple'], ENT_QUOTES	);
     $langue = (isSet($_POST['langue']) && !empty($_POST['langue']))? $_POST['langue'] : "fr";
 
     if(!$valueSafe) {

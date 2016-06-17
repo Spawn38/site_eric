@@ -42,6 +42,32 @@ function resetElementForm(label) {
 	});
 }
 
+function validEditElementForm(label,value,langue,simple,image) {
+	$.ajax({ url: '/func/editPageElements.php',
+        data: {
+          label : label,
+          value : value,
+          langue : langue,
+          simple : simple,
+          image : image},
+        type: 'post',
+        success: function(output) {
+        	if(output.success) {
+        		console.log(output);
+		        Materialize.toast('L\'élément a été modifié', 4000);
+		        $(location).attr('href','admini.php?onglet=0')
+		    } else {
+		    	console.log(output);
+		    	Materialize.toast('Une erreur est survenue', 4000);
+		    }
+		},
+        error: function(output) {
+        	console.log(output);
+            Materialize.toast('Une erreur est survenue', 4000);
+        }
+	});
+}
+
 function deleteEngagementForm(idengagement) {
 	var r = confirm("Confirmer la suppression :");
 	if(r == true) {
@@ -64,48 +90,4 @@ function deleteEngagementForm(idengagement) {
 	        }
 		});
 	}
-}
-
-function validAddEngagementForm(titre, icone, block, image, langue) {
-	$.ajax({ url: '/func/addEngagement.php',
-        data: {titre : titre, icone : icone, block : block, langue : langue,
-          image : image},
-        type: 'post',
-        success: function(output) {
-        	if(output.success) {
-        		console.log(output);
-		        Materialize.toast('L\'élément a été ajouté', 4000);
-		        $(location).attr('href','admini.php?onglet=2')
-		    } else {
-		    	console.log(output);
-		    	Materialize.toast('Une erreur est survenue', 4000);
-		    }
-		},
-        error: function(output) {
-        	console.log(output);
-            Materialize.toast('Une erreur est survenue', 4000);
-        }
-	});
-}
-
-function validEditEngagementForm(idengagement, titre, icone, block, image, langue) {
-$.ajax({ url: '/func/editEngagement.php',
-        data: {idengagement : idengagement, titre : titre, icone : icone,
-          block : block, langue : langue, image : image},
-        type: 'post',
-        success: function(output) {
-        	if(output.success) {
-        		console.log(output);
-		        Materialize.toast('L\'élément a été modifié', 4000);
-		        $(location).attr('href','admini.php?onglet=2')
-		    } else {
-		    	console.log(output);
-		    	Materialize.toast('Une erreur est survenue', 4000);
-		    }
-		},
-        error: function(output) {
-        	console.log(output);
-            Materialize.toast('Une erreur est survenue', 4000);
-        }
-	});
 }

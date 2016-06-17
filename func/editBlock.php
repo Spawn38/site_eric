@@ -19,12 +19,12 @@ if( !isSet($_POST['typeBlock']) ||
 try {
 	ob_start();
     include(__DIR__.'/../admin/config.php');
-    $idBlockSafe = htmlentities($_POST['idBlock']);
-    $typeBlockSafe = htmlentities($_POST['typeBlock']);
-    $fondBlockFormSafe = htmlentities($_POST['fondBlockForm']);
-    $textBlockFormSafe = htmlentities($_POST['textBlockForm']);
-    $titreBlockFormSafe = htmlentities($_POST['titreBlockForm']);
-    $valueBlockFormSafe = htmlentities($_POST['valueBlockForm']);
+    $idBlockSafe = htmlspecialchars($_POST['idBlock'], ENT_QUOTES);
+    $typeBlockSafe = htmlspecialchars($_POST['typeBlock'], ENT_QUOTES);
+    $fondBlockFormSafe = htmlspecialchars($_POST['fondBlockForm'], ENT_QUOTES);
+    $textBlockFormSafe = htmlspecialchars($_POST['textBlockForm'], ENT_QUOTES);
+    $titreBlockFormSafe = htmlspecialchars($_POST['titreBlockForm'], ENT_QUOTES);
+    $valueBlockFormSafe = htmlspecialchars($_POST['valueBlockForm'], ENT_QUOTES);
     $langue = (isSet($_POST['langue']) && !empty($_POST['langue']))? $_POST['langue'] : "fr";
 
     $res = mysqli_query($dbC, "SELECT max(ordre) as ordre FROM block");

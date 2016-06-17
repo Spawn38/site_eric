@@ -20,11 +20,11 @@ try {
 	ob_start();
     include(__DIR__.'/../admin/config.php');
 
-    $nomSafe = htmlentities($_POST['nomjoueur']);
-    $blockSafe = htmlentities($_POST['block']);
-    $lienSafe = htmlentities($_POST['lienjoueur']);
-    $cibleSafe = htmlentities($_POST['ciblejoueur']);
-    $imageSafe = htmlentities($_POST['imagejoueur']);
+    $nomSafe = htmlspecialchars($_POST['nomjoueur'], ENT_QUOTES);
+    $blockSafe = htmlspecialchars($_POST['block'], ENT_QUOTES);
+    $lienSafe = htmlspecialchars($_POST['lienjoueur'], ENT_QUOTES);
+    $cibleSafe = htmlspecialchars($_POST['ciblejoueur'], ENT_QUOTES);
+    $imageSafe = htmlspecialchars($_POST['imagejoueur'], ENT_QUOTES);
     $langue = (isSet($_POST['langue']) && !empty($_POST['langue']))? $_POST['langue'] : "fr";
 
     $sql = "INSERT INTO joueurs (nom, description, lien, cible, image, langue) VALUES

@@ -1,14 +1,14 @@
 <?php
 function navigation($pageElements,$active ="") {
   $menu = array(
-      'menu1' => html_entity_decode($pageElements['menu1']['value']),
-      'menu2' => html_entity_decode($pageElements['menu2']['value']),
-      'menu3' => html_entity_decode($pageElements['menu3']['value'])
+      'menu1' => htmlspecialchars_decode($pageElements['menu1']['value'], ENT_QUOTES),
+      'menu2' => htmlspecialchars_decode($pageElements['menu2']['value'], ENT_QUOTES),
+      'menu3' => htmlspecialchars_decode($pageElements['menu3']['value'], ENT_QUOTES)
     );
   echo '<nav class="white" role="navigation">';
     echo '<div class="nav-wrapper container">';
         echo '<a id="logo-container" href="/" class="brand-logo">';
-          echo '<img id="logo" src="'.html_entity_decode($pageElements['logo']['value']).'"/>';
+          echo '<img id="logo" src="'.htmlspecialchars_decode($pageElements['logo']['value'], ENT_QUOTES).'"/>';
         echo '</a>';
       echo '<ul class="right hide-on-med-and-down">';
         foreach($menu as $key => $element) {
@@ -21,8 +21,8 @@ function navigation($pageElements,$active ="") {
         }
       echo '</ul>';
       echo '<ul id="nav-mobile" class="side-nav">';
-        foreach($key as $element) {
-          if(strcmp($menu,$active)==0) {
+        foreach($menu as $key => $element) {
+          if(strcmp($key,$active)==0) {
             echo '<li class="active">';
           } else {
             echo '<li>';

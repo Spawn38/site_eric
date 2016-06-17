@@ -22,10 +22,10 @@ try {
 	ob_start();
     include(__DIR__.'/../admin/config.php');
 
-    $titreSafe = htmlentities($_POST['titre']);
-    $iconeSafe = htmlentities($_POST['icone']);
-    $blockSafe = htmlentities($_POST['block']);
-    $imageSafe = htmlentities($_POST['image']);
+    $titreSafe = htmlspecialchars($_POST['titre'], ENT_QUOTES);
+    $iconeSafe = htmlspecialchars($_POST['icone'], ENT_QUOTES);
+    $blockSafe = htmlspecialchars($_POST['block'], ENT_QUOTES);
+    $imageSafe = htmlspecialchars($_POST['image'], ENT_QUOTES);
     $langue = (isSet($_POST['langue']) && !empty($_POST['langue']))? $_POST['langue'] : "fr";
     $sql = "INSERT INTO engagement(titre,icone,block,image,langue) VALUE
     ('".$titreSafe."', '".$iconeSafe."', '".$blockSafe."', '".$imageSafe."', '".$langue."')";

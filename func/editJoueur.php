@@ -14,14 +14,14 @@ try {
 	ob_start();
     include(__DIR__.'/../admin/config.php');
 
-	  $idjoueur = htmlentities($_POST['idjoueur']);
-  	$nomSafe = htmlentities($_POST['nomjoueur']);
-    $blockSafe = htmlentities($_POST['block']);
-    $lienSafe = htmlentities($_POST['lienjoueur']);
-    $cibleSafe = htmlentities($_POST['ciblejoueur']);
-    $imageSafe = htmlentities($_POST['image']);
+	  $idjoueur = htmlspecialchars($_POST['idjoueur'], ENT_QUOTES);
+  	$nomSafe = htmlspecialchars($_POST['nomjoueur'], ENT_QUOTES);
+    $blockSafe = htmlspecialchars($_POST['block'], ENT_QUOTES);
+    $lienSafe = htmlspecialchars($_POST['lienjoueur'], ENT_QUOTES);
+    $cibleSafe = htmlspecialchars($_POST['ciblejoueur'], ENT_QUOTES);
+    $imageSafe = htmlspecialchars($_POST['image'], ENT_QUOTES);
     $langue = (isSet($_POST['langue']) && !empty($_POST['langue']))? $_POST['langue'] : "fr";
-		
+
     $sql="UPDATE joueurs SET nom = '".$nomSafe."',
     description = '".$blockSafe."', lien = '".$lienSafe."',
     cible = '".$cibleSafe."', image  = '".$imageSafe."'

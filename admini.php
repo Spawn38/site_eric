@@ -38,7 +38,7 @@ $referencesArray = getReferences($langue);
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
   <title>
   <?php
-    echo html_entity_decode($pageElements['titre']['value'])." - admin";
+    echo htmlspecialchars_decode($pageElements['titre']['value'], ENT_QUOTES)." - admin";
   ?>
   </title>
   <!-- CSS  -->
@@ -64,6 +64,7 @@ $referencesArray = getReferences($langue);
       </div>
     </div>
   </nav>
+
   <div id="loading" class="container center margin-top">
     <div class="preloader-wrapper big active">
       <div class="spinner-layer spinner-teal-only">
@@ -74,13 +75,14 @@ $referencesArray = getReferences($langue);
     </div>
     <h4>Chargement...</h4>
   </div>
+
   <div class="row" id="main" style="display:none" >
     <div class="col s12 margin-top">
       <ul class="tabs">
         <?php
         $titre = array("admin1" => "Principale", "admin2" => "Contact",
-          "admin3" => "Engagements", "admin4" => "Blocks", "admin5" => html_entity_decode($pageElements['menu1']['value']),
-          "admin6" => html_entity_decode($pageElements['menu2']['value']));
+          "admin3" => "Engagements", "admin4" => "Blocks", "admin5" => htmlspecialchars_decode($pageElements['menu1']['value'], ENT_QUOTES),
+          "admin6" => htmlspecialchars_decode($pageElements['menu2']['value'], ENT_QUOTES));
         $i=0;
         foreach($titre as $id => $menu ) {
           echo "<li  class=\"tab col s3\"><a ";
@@ -108,19 +110,19 @@ $referencesArray = getReferences($langue);
         <?php
         foreach ( $pageElements as $key => $element) {
           echo '<tr>';
-            echo '<td>'.html_entity_decode($key).'</td>';
-            echo '<td style="white-space: pre-wrap; width:60%" id="element'.html_entity_decode($key).'">';
+            echo '<td>'.htmlspecialchars_decode($key, ENT_QUOTES).'</td>';
+            echo '<td style="white-space: pre-wrap; width:60%" id="element'.htmlspecialchars_decode($key, ENT_QUOTES).'">';
               if($element['image']==1) {
-                echo '<img src="'.html_entity_decode($element['value']).'" class="logo"/>';
+                echo '<img src="'.htmlspecialchars_decode($element['value'], ENT_QUOTES).'" class="logo"/>';
               } else {
-                echo html_entity_decode($element['value']);
+                echo htmlspecialchars_decode($element['value'], ENT_QUOTES);
               }
             echo '</td>';
             echo '<td>';
               echo "<a class=\"waves-effect waves-light btn\" style=\"margin-right:15px\"
-                onClick=\"editElementForm('".htmlentities($key)."','".$element['simple']."','".$element['image']."')\">Edit</a>";
+                onClick=\"editElementForm('".$key."','".$element['simple']."','".$element['image']."')\">Edit</a>";
               echo "<a class=\"waves-effect waves-light btn\"
-                onClick=\"resetElementForm('".htmlentities($key)."')\">Reset</a>";
+                onClick=\"resetElementForm('".$key."')\">Reset</a>";
             echo '</td>';
           echo '</tr>';
         }
@@ -179,14 +181,14 @@ $referencesArray = getReferences($langue);
         foreach ( $contacts as $key => $value) {
           echo '<tr id="contact'.$value["idcontact"].'">';
             echo '<td>';
-              echo html_entity_decode($value["label"]);
+              echo htmlspecialchars_decode($value["label"], ENT_QUOTES);
             echo '</td>';
             echo '<td style="white-space: pre-wrap; width:60%">';
-              echo html_entity_decode($value["value"]);
+              echo htmlspecialchars_decode($value["value"], ENT_QUOTES);
             echo '</td>';
             echo '<td>';
               echo "<a class=\"waves-effect waves-light btn\" style=\"margin-right:15px\"
-                onClick=\"editContactForm(".htmlentities($value["idcontact"]).",'".htmlentities($value["label"])."','".$value["value"]."')\"
+                onClick=\"editContactForm(".$value["idcontact"].",'".$value["label"]."','".$value["value"]."')\"
               >Edit</a>";
               echo "<a class=\"waves-effect waves-light btn\" onClick=\"supprContactForm(".$value["idcontact"].")\">Suppr</a>";
             echo "</td>";
@@ -250,7 +252,7 @@ $referencesArray = getReferences($langue);
           if($engagement['image']!="") {
             echo "<style>";
               echo "#".$idEng.":before {";
-              echo "background-image: url('".html_entity_decode($engagement['image'])."') }";
+              echo "background-image: url('".htmlspecialchars_decode($engagement['image'], ENT_QUOTES)."') }";
             echo "</style>";
           }
 
@@ -261,10 +263,10 @@ $referencesArray = getReferences($langue);
             } else {
               echo "<div class=\"card-content\" id=\"".$idEng."\">";
             }
-                echo "<i class=\"material-icons prefix\">".html_entity_decode($engagement['icone'])."</i>";
-                echo "<span class=\"card-title\">".html_entity_decode($engagement['titre'])."</span>";
+                echo "<i class=\"material-icons prefix\">".htmlspecialchars_decode($engagement['icone'], ENT_QUOTES)."</i>";
+                echo "<span class=\"card-title\">".htmlspecialchars_decode($engagement['titre'], ENT_QUOTES)."</span>";
                 echo "<div>";
-                  echo html_entity_decode($engagement['block']);
+                  echo htmlspecialchars_decode($engagement['block'], ENT_QUOTES);
                 echo "</div>";
               echo "</div>";
               echo "<div class=\"card-action\">";
@@ -282,13 +284,13 @@ $referencesArray = getReferences($langue);
           <form class="col s12" id="engagementFormAdmin">
             <div class="row">
               <div class="input-field col s12">
-                <input id="titreEngagementForm" type="text" class="validate" required>
-                <label for="titreEngagementForm">titre</label>
+                <label for="titreEngagementForm">titre</label><br/>
+                <p id="titreEngagementForm" ></p>
               </div>
             </div>
             <div class="row">
               <div class="input-field col s12">
-                <input style="width:95%" onBlur="updateIcon()" id="iconeEngagementForm" type="text" class="validate" required>
+                <input style="width:95%" onBlur="updateIcon()" id="iconeEngagementForm" type="text" class="validate"313>
                 <label for="iconeEngagementForm">icone</label>
                 <i id="iconEngagement" class="material-icons prefix"></i>
               </div>
@@ -331,7 +333,7 @@ $referencesArray = getReferences($langue);
           if($block['type']==1) {
             echo '#block'.$block['idblock'].':before';
             echo "{\n";
-              echo "background-image: url('".html_entity_decode($block['image'])."')";
+              echo "background-image: url('".htmlspecialchars_decode($block['image'], ENT_QUOTES)."')";
             echo "}\n";
           }
         }
@@ -348,10 +350,10 @@ $referencesArray = getReferences($langue);
           echo '<input type="hidden" id="idBlock" value="'.$block['idblock'].'"/>';
           echo '<div class="center card-content '.$fondAdmin.'" id="block'.$block['idblock'].'">';
           if($block['type']==1) {
-            echo '<h4 class="textImage">'.html_entity_decode($block['texte']).'</h4>';
+            echo '<h4 class="textImage">'.htmlspecialchars_decode($block['texte'], ENT_QUOTES).'</h4>';
           } else {
-            echo '<span class="card-title">'.html_entity_decode($block['titre']).'</span>';
-            echo '<div>'.html_entity_decode($block['texte']).'</div>';
+            echo '<span class="card-title">'.htmlspecialchars_decode($block['titre'], ENT_QUOTES).'</span>';
+            echo '<div>'.htmlspecialchars_decode($block['texte'], ENT_QUOTES).'</div>';
           }
           echo '</div>';
             echo '<div class="card-action backGroundWhite">';
@@ -434,10 +436,10 @@ $referencesArray = getReferences($langue);
                 echo "<img class=\"activator\" src=\"".$joueur['image']."\" style=\"width:auto;padding:15px\"/>";
               echo "</div>";
               echo "<div class=\"card-content \" id=\"joueur".$joueur['idjoueur']."\">";
-                echo "<span class=\"card-title\">".html_entity_decode($joueur['nom'])."</span>";
-                echo "<br/><a target=\"_blank\" href=\"".html_entity_decode($joueur['cible'])."\">";
-                echo html_entity_decode($joueur['lien'])."</a>";
-                echo "<p>".html_entity_decode($joueur['description'])."</p>";
+                echo "<span class=\"card-title\">".htmlspecialchars_decode($joueur['nom'], ENT_QUOTES)."</span>";
+                echo "<br/><a target=\"_blank\" href=\"".htmlspecialchars_decode($joueur['cible'], ENT_QUOTES)."\">";
+                echo htmlspecialchars_decode($joueur['lien'], ENT_QUOTES)."</a>";
+                echo "<p>".htmlspecialchars_decode($joueur['description'], ENT_QUOTES)."</p>";
               echo "</div>";
               echo "<div class=\"card-action\">";
                 echo "<a class=\"waves-effect black-text waves-teal btn-flat\"
@@ -519,10 +521,10 @@ $referencesArray = getReferences($langue);
           <tbody>
           <?php
           foreach ( $referencesArray as $element) {
-            echo '<tr id="reference'.html_entity_decode($element['idreference']).'">';
-              echo '<td><img src="'.html_entity_decode($element['image']).'" class="logo"/></td>';
+            echo '<tr id="reference'.htmlspecialchars_decode($element['idreference'], ENT_QUOTES).'">';
+              echo '<td><img src="'.htmlspecialchars_decode($element['image'], ENT_QUOTES).'" class="logo"/></td>';
               echo '<td style="white-space: pre-wrap; width:60%">';
-                  echo '<span>'.html_entity_decode($element['texte']).'</span>';
+                  echo '<span>'.htmlspecialchars_decode($element['texte'], ENT_QUOTES).'</span>';
               echo '</td>';
               echo '<td>';
                 echo "<a class=\"waves-effect waves-light btn\" style=\"margin-right:15px\"

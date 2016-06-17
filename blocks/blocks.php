@@ -7,7 +7,7 @@ function blocks($blocks) {
           echo '<div class="container">';
             echo '<div class="row center">';
               echo '<h4 class="header col s12 textImage">';
-                echo html_entity_decode($block['texte']);
+                echo htmlspecialchars_decode($block['texte'], ENT_QUOTES);
               echo '</h4>';
             echo '</div>';
           echo '</div>';
@@ -25,9 +25,9 @@ function blocks($blocks) {
             echo '<div class="col s12 center">';
               echo '<h3><i class="mdi-content-send brown-text"></i></h3>';
               echo '<h5>';
-                  echo html_entity_decode($block['titre']);
+                  echo htmlspecialchars_decode($block['titre'], ENT_QUOTES);
               echo '</h5>';
-              echo html_entity_decode($block['texte']);
+              echo htmlspecialchars_decode($block['texte'], ENT_QUOTES);
             echo '</div>';
           echo '</div>';
         echo '</div>';

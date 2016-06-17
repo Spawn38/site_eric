@@ -14,8 +14,8 @@ try {
 	ob_start();
     include(__DIR__.'/../admin/config.php');
 
-    $valueSafe = htmlentities($_POST['value']);
-    $labelSafe = htmlentities($_POST['label']);
+    $valueSafe = htmlspecialchars($_POST['value'], ENT_QUOTES);
+    $labelSafe = htmlspecialchars($_POST['label'], ENT_QUOTES);
 
    	$sql="UPDATE contact SET value = '".$valueSafe."', label = '".$labelSafe."' WHERE idcontact = ".$_POST['idcontact'];
 		$res = mysqli_query($dbC, $sql);

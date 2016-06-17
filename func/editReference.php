@@ -20,9 +20,9 @@ if( !isSet($_POST['idreference']) ||
 try {
 	ob_start();
     include(__DIR__.'/../admin/config.php');
-    $idreferenceSafe = htmlentities($_POST['idreference']);
-    $textrefrenceSafe = htmlentities($_POST['textrefrence']);
-    $imagereferenceSafe = htmlentities($_POST['imagereference']);
+    $idreferenceSafe = htmlspecialchars($_POST['idreference'], ENT_QUOTES);
+    $textrefrenceSafe = htmlspecialchars($_POST['textrefrence'], ENT_QUOTES);
+    $imagereferenceSafe = htmlspecialchars($_POST['imagereference'], ENT_QUOTES);
     $langue = (isSet($_POST['langue']) && !empty($_POST['langue']))? $_POST['langue'] : "fr";
 
     $sql = "UPDATE reference set texte = '".$textrefrenceSafe."', image = '".$imagereferenceSafe."'

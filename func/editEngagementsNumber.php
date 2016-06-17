@@ -20,7 +20,7 @@ try {
   	ob_start();
     include(__DIR__.'/../admin/config.php');
 
-    $numberSafe = htmlentities($_POST['number']);
+    $numberSafe = htmlspecialchars($_POST['number'], ENT_QUOTES);
 
     $sql = "UPDATE pageelement SET value = '".$numberSafe."' where
     langue = '".$langue."' and label='engagement_number'";

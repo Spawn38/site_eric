@@ -35,9 +35,9 @@ include(__DIR__.'/blocks/blocks.php');
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
 
   <?php
-    echo '<meta name="description" content="'.html_entity_decode($pageElements['description']['value']).'">';
-    echo '<meta name="keywords" content="'.html_entity_decode($pageElements['keywords']['value']).'">';
-    echo '<title>'.html_entity_decode($pageElements['titre']['value']).'</title>';
+    echo '<meta name="description" content="'.htmlspecialchars_decode($pageElements['description']['value'], ENT_QUOTES).'">';
+    echo '<meta name="keywords" content="'.htmlspecialchars_decode($pageElements['keywords']['value'], ENT_QUOTES).'">';
+    echo '<title>'.htmlspecialchars_decode($pageElements['titre']['value'], ENT_QUOTES).'</title>';
   ?>
 
   <!-- CSS  -->

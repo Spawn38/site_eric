@@ -1,6 +1,8 @@
 (function($){
   $(function(){
 
+    const toolBar = "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | fontselect fontsizeselec | removeformat | bullist, numlist, outdent, indent | forecolor backcolor | link";
+
     $('ul.tabs').tabs();
     $(".sort-scroll-container").sortScroll({
       animationDuration: 1000,// duration of the animation in ms
@@ -29,7 +31,7 @@
     $('#elementFormAdmin').on('submit', function(e){
       e.preventDefault();
       let value='';
-      if($('#simpleElementForm').val() === 0) {
+      if($('#simpleElementForm').val() == 0) {
         value = tinymce.get('valueElementForm').getContent();
       } else {
         value = $('#simpelValueElementForm').val();
@@ -48,7 +50,7 @@
       e.preventDefault();
       if($('#actionEngagementForm').val() == 'add') {
         validAddEngagementForm(
-          $('#titreEngagementForm').val(),
+          tinymce.get('titreEngagementForm').getContent(),
           $('#iconeEngagementForm').val(),
           tinymce.get('valueEngagementForm').getContent(),
           $('#fondEngagementForm').val(),
@@ -57,7 +59,7 @@
       else if($('#actionEngagementForm').val() == 'edit') {
         validEditEngagementForm(
           $('#idEngagementForm').val(),
-          $('#titreEngagementForm').val(),
+          tinymce.get('titreEngagementForm').getContent(),
           $('#iconeEngagementForm').val(),
           tinymce.get('valueEngagementForm').getContent(),
           $('#fondEngagementForm').val(),
@@ -133,10 +135,9 @@
       menubar: false,
       forced_root_block : "",
       link_title: false,
+      toolbar: toolBar,
       plugins: [
-        'autolink link hr anchor',
-        'nonbreaking',
-        'directionality paste'
+        'textcolor colorpicker link hr anchor nonbreaking paste autoresize'
       ]
     });
 
@@ -145,10 +146,9 @@
       menubar: false,
       forced_root_block : "",
       link_title: false,
+      toolbar: toolBar,
       plugins: [
-        'autolink link hr anchor',
-        'nonbreaking',
-        'directionality paste'
+        'textcolor colorpicker link hr anchor nonbreaking paste autoresize'
       ]
     });
 
@@ -157,10 +157,9 @@
       menubar: false,
       forced_root_block : "",
       link_title: false,
+      toolbar: toolBar+" image",
       plugins: [
-        'autolink link hr anchor image',
-        'nonbreaking',
-        'directionality paste'
+        'textcolor colorpicker link hr anchor nonbreaking paste autoresize image'
       ]
     });
 
@@ -169,10 +168,9 @@
       menubar: false,
       forced_root_block : "",
       link_title: false,
+      toolbar: toolBar,
       plugins: [
-        'autolink link hr anchor',
-        'nonbreaking',
-        'directionality paste'
+        'textcolor colorpicker link hr anchor nonbreaking paste autoresize'
       ]
     });
 
@@ -181,10 +179,21 @@
       menubar: false,
       forced_root_block : "",
       link_title: false,
+      toolbar: toolBar,
       plugins: [
-        'autolink link hr anchor',
-        'nonbreaking',
-        'directionality paste'
+        'textcolor colorpicker link hr anchor nonbreaking paste autoresize'
+      ]
+    });
+
+    tinymce.init({
+      selector: '#titreEngagementForm',
+      menubar: false,
+      forced_root_block : "",
+      link_title: true,
+      inline: true,
+      toolbar: toolBar,
+      plugins: [
+        'textcolor colorpicker link hr anchor nonbreaking paste autoresize'
       ]
     });
 

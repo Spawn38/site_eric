@@ -14,7 +14,7 @@ try {
 	ob_start();
     include(__DIR__.'/../admin/config.php');
 
-    $labelSafe = htmlentities($_POST['label']);
+    $labelSafe = htmlspecialchars($_POST['label'], ENT_QUOTES);
     $langue = (isSet($_POST['langue']) && !empty($_POST['langue']))? $_POST['langue'] : "fr";
 
     $sql="DELETE FROM pageelement WHERE label = '".$labelSafe."' and langue = '".$langue."'";

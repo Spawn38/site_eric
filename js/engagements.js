@@ -121,21 +121,18 @@ function addEngagementsNumber() {
 
 function addEngagementForm() {
 	$('#modalEngagementForm').openModal();
-	$('#titreEngagementForm').html('');
-	$('#titreEngagementForm').trigger('change');
 	$('#iconeEngagementForm').val('');
 	$('#iconeEngagementForm').trigger('change');
   $('#fondEngagementForm').val('');
 	$('#fondEngagementForm').trigger('change');
 	tinymce.get('valueEngagementForm').setContent('');
+	tinymce.get('titreEngagementForm').setContent('');
 	$('#idEngagementForm').val('');
 	$('#actionEngagementForm').val('add');
 }
 
 function editEngagementForm(idengagement,image) {
 	$('#modalEngagementForm').openModal();
-	$('#titreEngagementForm').val($('#engagement'+idengagement+'>span').html());
-	$('#titreEngagementForm').trigger('change');
 	$('#iconeEngagementForm').val($('#engagement'+idengagement+'>i').html());
 	$('#iconeEngagementForm').trigger('change');
 	$('#iconeEngagementForm').focus();
@@ -143,6 +140,7 @@ function editEngagementForm(idengagement,image) {
   $('#fondEngagementForm').val(htmlDecode(image));
   $('#fondEngagementForm').trigger('change');
 	tinymce.get('valueEngagementForm').setContent($('#engagement'+idengagement+'>div').html());
+	tinymce.get('titreEngagementForm').setContent($('#engagement'+idengagement+'>span').html());
 	$('#idEngagementForm').val(idengagement);
 	$('#actionEngagementForm').val('edit');
 }

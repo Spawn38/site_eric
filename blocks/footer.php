@@ -7,19 +7,19 @@ function footer($pageElements, $contactsArray) {
         <div class="col l6 s12">
           <h5 class="white-text">
             <?php
-              echo html_entity_decode($pageElements['pied_titre']['value']);
+              echo htmlspecialchars_decode($pageElements['pied_titre']['value'], ENT_QUOTES);
             ?>
           </h5>
           <p class="grey-text text-lighten-4" style="line-height: 1.5">
             <?php
-              echo html_entity_decode($pageElements['pied_texte']['value']);
+              echo htmlspecialchars_decode($pageElements['pied_texte']['value'], ENT_QUOTES);
             ?>
           </p>
         </div>
         <div class="col l6 s12">
           <h5 class="white-text">
            <?php
-              echo html_entity_decode($pageElements['contact_titre']['value']);
+              echo htmlspecialchars_decode($pageElements['contact_titre']['value'], ENT_QUOTES);
             ?>
 
           </h5>
@@ -28,10 +28,10 @@ function footer($pageElements, $contactsArray) {
               foreach ($contactsArray as $contact) {
                 echo "<tr>";
                   echo "<td>";
-                    echo "".html_entity_decode($contact['label']);
+                    echo "".htmlspecialchars_decode($contact['label'], ENT_QUOTES);
                   echo "</td>";
                   echo "<td>";
-                    echo "".html_entity_decode($contact['value']);
+                    echo "".htmlspecialchars_decode($contact['value'], ENT_QUOTES);
                   echo "</td>";
                 echo "</tr>";
               }
@@ -44,7 +44,7 @@ function footer($pageElements, $contactsArray) {
       <div class="container">
         <p>
         <?php
-          echo html_entity_decode($pageElements['popup']['value']);
+          echo htmlspecialchars_decode($pageElements['popup']['value'], ENT_QUOTES);
         ?>
         </p>
       </div>

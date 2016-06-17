@@ -19,9 +19,9 @@ try {
 	ob_start();
     include(__DIR__.'/../admin/config.php');
 
-	  $idBlock = htmlentities($_POST['idBlock']);
-  	$initialOrder = htmlentities($_POST['initialOrder']);
-    $destinationOrder = htmlentities($_POST['destinationOrder']);
+	  $idBlock = htmlspecialchars($_POST['idBlock'], ENT_QUOTES);
+  	$initialOrder = htmlspecialchars($_POST['initialOrder'], ENT_QUOTES);
+    $destinationOrder = htmlspecialchars($_POST['destinationOrder'], ENT_QUOTES);
     $langue = (isSet($_POST['langue']) && !empty($_POST['langue']))? $_POST['langue'] : "fr";
 
     $sql="UPDATE block SET ordre = '".$initialOrder."' WHERE ordre = '".$destinationOrder."'";

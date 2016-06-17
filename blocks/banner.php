@@ -7,14 +7,14 @@ function banner($pageElements) {
         <div class="row center">
           <h1 class="header center teal-text text-lighten-2">
           <?php
-            echo html_entity_decode($pageElements['principal']['value']);
+            echo htmlspecialchars_decode($pageElements['principal']['value']);
           ?>
           </h1>
         </div>
         <div class="row center">
           <a onClick="openContact()" class="btn-large waves-effect waves-light teal lighten-1">
           <?php
-            echo html_entity_decode($pageElements['bouton_contact']['value']);
+            echo htmlspecialchars_decode($pageElements['bouton_contact']['value'], ENT_QUOTES);
           ?>
           </a>
         </div>
@@ -23,7 +23,7 @@ function banner($pageElements) {
     <div class="parallax">
     <?php
     echo '<img style="opacity: 0.8;filter: alpha(opacity=80);" src="';
-    echo html_entity_decode($pageElements['img_banner']['value']);
+    echo htmlspecialchars_decode($pageElements['img_banner']['value'], ENT_QUOTES);
     echo '" alt="Unsplashed background">'
     ?>
     </div>

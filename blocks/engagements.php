@@ -13,10 +13,8 @@ function engagements($pageElements, $engagements, $engagementsColNumber)
     echo '<div class="section">';
     if($nbEnagements) {
       echo '<div class="row">';
-          echo '<div class="col s12">';
-            echo '<h4 class="header center">';
-              echo html_entity_decode($pageElements['engagement_titre']['value']);
-            echo '</h4>';
+          echo '<div class="col s12 center">';
+              echo htmlspecialchars_decode($pageElements['engagement_titre']['value'], ENT_QUOTES);
           echo '</div>';
       echo '</div>';
 
@@ -25,13 +23,12 @@ function engagements($pageElements, $engagements, $engagementsColNumber)
         if($engagement['image']!="") {
           $idEng = "engagement".$engagement['idengagement'];
           echo "#".$idEng." {\n";
-          echo "background-image: url('".html_entity_decode($engagement['image'])."') }\n";
+          echo "background-image: url('".htmlspecialchars_decode($engagement['image'], ENT_QUOTES)."') }\n";
         }
       }
       echo "</style>";
 
-      echo '<div class="row">';
-
+      $i=0;
       foreach ($engagements as $key => $engagement) {
         $fondClass ="";
         $idEng = "engagement".$engagement['idengagement'];
@@ -39,23 +36,31 @@ function engagements($pageElements, $engagements, $engagementsColNumber)
           $fondClass =" fondMain";
         }
 
+        if($i%$engagementsColNumber == 0) {
+          echo '<div class="row">';
+        }
+
         echo '<div class="col s12 '.'m'.$nbColumn.$fondClass.'">';
           echo '<div class="icon-block">';
             echo '<h2 class="center brown-text">';
               echo '<i class="material-icons">';
-                echo html_entity_decode($engagement['icone']);
+                echo htmlspecialchars_decode($engagement['icone'], ENT_QUOTES);
               echo '</i>';
             echo '</h2>';
-            echo '<h5 class="center">';
-              echo html_entity_decode($engagement['titre']);
-            echo '</h5>';
+            echo '<div class="center">';
+              echo htmlspecialchars_decode($engagement['titre'], ENT_QUOTES);
+            echo '</div>';
             echo '<div class="'.$fondClass.'" id="'.$idEng.'">';
-              echo html_entity_decode($engagement['block']);
+              echo htmlspecialchars_decode($engagement['block'], ENT_QUOTES);
             echo '</div>';
           echo '</div>';
         echo '</div>';
+
+        if($i%$engagementsColNumber == ($engagementsColNumber-1)) {
+          echo '</div>';
+        }
+        $i++;
       }
-      echo '</div>';
     }
     echo '</div>';
   echo '</div>';

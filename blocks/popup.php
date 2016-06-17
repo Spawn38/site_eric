@@ -6,13 +6,13 @@ function popup($pageElements){
       <tr>
         <td>
           <?php
-            echo "<img id=\"logo-min\" src=\"".html_entity_decode($pageElements['logo']['value'])."\"/>";
+            echo "<img id=\"logo-min\" src=\"".htmlspecialchars_decode($pageElements['logo']['value'], ENT_QUOTES)."\"/>";
           ?>
         </td>
         <td >
           <span>
           <?php
-            echo html_entity_decode($pageElements['popup']['value']);
+            echo htmlspecialchars_decode($pageElements['popup']['value'], ENT_QUOTES);
           ?>
           </span>
         </td>

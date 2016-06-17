@@ -24,9 +24,9 @@ include(__DIR__.'/blocks/footer.php');
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
 
   <?php
-    echo '<meta name="description" content="'.html_entity_decode($pageElements['description']['value']).'">';
-    echo '<meta name="keywords" content="'.html_entity_decode($pageElements['keywords']['value']).'">';
-    echo '<title>'.html_entity_decode($pageElements['titre']['value']).'</title>';
+    echo '<meta name="description" content="'.htmlspecialchars_decode($pageElements['description']['value'], ENT_QUOTES).'">';
+    echo '<meta name="keywords" content="'.htmlspecialchars_decode($pageElements['keywords']['value'], ENT_QUOTES).'">';
+    echo '<title>'.htmlspecialchars_decode($pageElements['titre']['value'], ENT_QUOTES).'</title>';
   ?>
 
   <!-- CSS  -->
@@ -43,7 +43,7 @@ include(__DIR__.'/blocks/footer.php');
       <div class="center-align fullwidth">
         <a href="#" class=" brand-logo center white-text">
         <?php
-          echo '<h4>'.html_entity_decode($pageElements['menu1']['value']).'</h4>';
+          echo '<h4>'.htmlspecialchars_decode($pageElements['menu1']['value'], ENT_QUOTES).'</h4>';
         ?>
         </a>
       </div>
@@ -51,7 +51,7 @@ include(__DIR__.'/blocks/footer.php');
 
   <div class="row margin-top fullwidth">
     <?php
-      echo '<p>'.html_entity_decode($pageElements['descr_menu1']['value']).'</p>';
+      echo '<p>'.htmlspecialchars_decode($pageElements['descr_menu1']['value'], ENT_QUOTES).'</p>';
     ?>
   </div>
 
@@ -63,31 +63,31 @@ include(__DIR__.'/blocks/footer.php');
       <div class="card">
         <div class="card-image waves-effect waves-block waves-light">
         <?php
-          echo "<img class=\"activator\" src=\"".$joueur['image']."\" style=\"width:auto;padding:15px\">";
+          echo "<img class=\"activator\" src=\"".htmlspecialchars_decode($joueur['image'], ENT_QUOTES)."\" style=\"width:auto;padding:15px\">";
         ?>
         </div>
         <div class="card-content">
           <span class="card-title activator grey-text text-darken-4">
           <?php
-            echo html_entity_decode($joueur['nom']);
+            echo htmlspecialchars_decode($joueur['nom'], ENT_QUOTES);
           ?>
           <i class="material-icons right">more_vert</i></span>
           <p>
           <?php
-            echo "<a target=\"_blank\" href=\"".html_entity_decode($joueur['cible'])."\">";
-            echo html_entity_decode($joueur['lien'])."</a>";
+            echo "<a target=\"_blank\" href=\"".htmlspecialchars_decode($joueur['cible'], ENT_QUOTES)."\">";
+            echo htmlspecialchars_decode($joueur['lien'], ENT_QUOTES)."</a>";
           ?>
           </p>
         </div>
         <div class="card-reveal">
           <span class="card-title grey-text text-darken-4">
           <?php
-            echo html_entity_decode($joueur['nom']);
+            echo htmlspecialchars_decode($joueur['nom'], ENT_QUOTES);
           ?>
           <i class="material-icons right">close</i></span>
           <p>
           <?php
-            echo html_entity_decode($joueur['description']);
+            echo htmlspecialchars_decode($joueur['description'], ENT_QUOTES);
           ?>
           </p>
         </div>
