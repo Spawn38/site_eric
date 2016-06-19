@@ -10,16 +10,18 @@ include(__DIR__.'/func/default.php');
 include(__DIR__.'/func/getPageElements.php');
 $pageElements = getPageElements($langue, getDefaultValues());
 
-include(__DIR__.'/func/getBlocks.php');
-$blockArray = getBlocks($langue);
+include(__DIR__.'/func/getJoueurs.php');
+$joueurs = getJoueurs($langue);
+
+include(__DIR__.'/func/getEngagements.php');
+$engagementsArray = getEngagements($langue);
+
+include(__DIR__.'/func/getEngagementsNumber.php');
+$engagementsColNumber = getEngagementsNumber();
 
 include(__DIR__.'/blocks/nav.php');
-include(__DIR__.'/blocks/banner.php');
-include(__DIR__.'/blocks/contact.php');
-include(__DIR__.'/blocks/popup.php');
 include(__DIR__.'/blocks/footer.php');
 include(__DIR__.'/blocks/engagements.php');
-include(__DIR__.'/blocks/blocks.php');
 ?>
 
 <!DOCTYPE html>
@@ -41,20 +43,13 @@ include(__DIR__.'/blocks/blocks.php');
 </head>
 <body>
   <?php
-    navigation($pageElements);
-    banner($pageElements);
-    blocks($blockArray);
+    navigation($pageElements,'engagements');
+    engagements($pageElements, $engagementsArray, $engagementsColNumber);
     footer($pageElements, $contactsArray);
-    popup($pageElements);
   ?>
-
-  <!--  Scripts-->
+   <!--  Scripts-->
   <script src="js/jquery-2.2.4.min.js"></script>
   <script src="js/materialize.min.js"></script>
   <script src="js/init.js"></script>
-
-  <?php
-    contact($pageElements);
-  ?>
-</body>
+  </body>
 </html>

@@ -284,8 +284,8 @@ $referencesArray = getReferences($langue);
           <form class="col s12" id="engagementFormAdmin">
             <div class="row">
               <div class="input-field col s12">
-                <label for="titreEngagementForm">titre</label><br/>
-                <p id="titreEngagementForm" ></p>
+                <label for="titreEngagementForm">titre</label><br/><br/>
+                <textarea id="titreEngagementForm" ></textarea>
               </div>
             </div>
             <div class="row">
@@ -523,10 +523,14 @@ $referencesArray = getReferences($langue);
           foreach ( $referencesArray as $element) {
             echo '<tr id="reference'.htmlspecialchars_decode($element['idreference'], ENT_QUOTES).'">';
               echo '<td><img src="'.htmlspecialchars_decode($element['image'], ENT_QUOTES).'" class="logo"/></td>';
-              echo '<td style="white-space: pre-wrap; width:60%">';
+              echo '<td style="white-space: pre-wrap; width:50%">';
                   echo '<span>'.htmlspecialchars_decode($element['texte'], ENT_QUOTES).'</span>';
               echo '</td>';
               echo '<td>';
+              if($element['lien'] && !empty($element['lien'])) {
+                echo "<a class=\"waves-effect waves-light btn\" style=\"margin-right:15px\"
+                   href=\"".htmlspecialchars_decode($element['lien'], ENT_QUOTES)."\" target=\"_blank\">Lien</a>";
+              }
                 echo "<a class=\"waves-effect waves-light btn\" style=\"margin-right:15px\"
                   onClick=\"editReferenceForm('".$element['idreference']."')\">Edit</a>";
                 echo "<a class=\"waves-effect waves-light btn\"
@@ -556,7 +560,13 @@ $referencesArray = getReferences($langue);
             </div>
             <div class="row">
               <div class="input-field col s12">
-                <input id="textRefrenceForm" type="text" class="validate"  required>
+                <input id="lienReference" type="text" class="validate"  >
+                <label for="lienReference">Lien (ne pas oublier http://)</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="textRefrenceForm" type="text" class="validate"  >
                 <label for="textRefrenceForm">Texte</label>
               </div>
             </div>

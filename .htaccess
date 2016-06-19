@@ -2,14 +2,15 @@ DirectoryIndex index.php
 
 RewriteEngine On
 RewriteBase /
+
+RewriteRule ^/?admin/(.*)? - [F]
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^.*$ "http://spra-france.fr" [L,QSA]
-RewriteRule ^/?admin/(.*)? - [F]
+RewriteRule ^.*$ "http://sspa-france.fr" [L,QSA]
 
 # Alternative pour empêcher le listage des répertoires
 IndexIgnore *
-
 
 # Protéger les fichiers .htaccess et .htpasswds
 <Files ~ "^.*\.([Hh][Tt][AaPp])">

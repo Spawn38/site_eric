@@ -1,6 +1,7 @@
 <?php
 function navigation($pageElements,$active ="") {
   $menu = array(
+      'engagements' => htmlspecialchars_decode($pageElements['menu0']['value'], ENT_QUOTES),
       'menu1' => htmlspecialchars_decode($pageElements['menu1']['value'], ENT_QUOTES),
       'menu2' => htmlspecialchars_decode($pageElements['menu2']['value'], ENT_QUOTES),
       'menu3' => htmlspecialchars_decode($pageElements['menu3']['value'], ENT_QUOTES)

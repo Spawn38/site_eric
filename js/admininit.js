@@ -96,6 +96,7 @@
         validAddReferenceForm(
           $('#textRefrenceForm').val(),
           $('#imageReference').val(),
+          $('#lienReference').val(),
           $('#langue').val());
       }
       else if($('#actionReferenceForm').val() == 'edit') {
@@ -103,6 +104,7 @@
           $('#idReferenceForm').val(),
           $('#textRefrenceForm').val(),
           $('#imageReference').val(),
+          $('#lienReference').val(),
           $('#langue').val());
       }
     });
@@ -189,8 +191,7 @@
       selector: '#titreEngagementForm',
       menubar: false,
       forced_root_block : "",
-      link_title: true,
-      inline: true,
+      link_title: false,
       toolbar: toolBar,
       plugins: [
         'textcolor colorpicker link hr anchor nonbreaking paste autoresize'

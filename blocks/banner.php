@@ -22,7 +22,7 @@ function banner($pageElements) {
     </div>
     <div class="parallax">
     <?php
-    echo '<img style="opacity: 0.8;filter: alpha(opacity=80);" src="';
+    echo '<img class="parallaxImg" src="';
     echo htmlspecialchars_decode($pageElements['img_banner']['value'], ENT_QUOTES);
     echo '" alt="Unsplashed background">'
     ?>

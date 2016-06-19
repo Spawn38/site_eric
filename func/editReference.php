@@ -4,7 +4,6 @@ header("Content-Type: text/json; charset=utf8");
 include('checkLogin.php');
 
 if( !isSet($_POST['idreference']) ||
-    !isSet($_POST['textrefrence']) ||
     !isSet($_POST['imagereference']) ||
     !isSet($_SESSION['login']) ||
     !isSet($_SESSION['password']) ||
@@ -23,9 +22,11 @@ try {
     $idreferenceSafe = htmlspecialchars($_POST['idreference'], ENT_QUOTES);
     $textrefrenceSafe = htmlspecialchars($_POST['textrefrence'], ENT_QUOTES);
     $imagereferenceSafe = htmlspecialchars($_POST['imagereference'], ENT_QUOTES);
+    $lienreferenceSafe = htmlspecialchars($_POST['lienreference'], ENT_QUOTES);
     $langue = (isSet($_POST['langue']) && !empty($_POST['langue']))? $_POST['langue'] : "fr";
 
-    $sql = "UPDATE reference set texte = '".$textrefrenceSafe."', image = '".$imagereferenceSafe."'
+    $sql = "UPDATE reference set texte = '".$textrefrenceSafe."', image = '".$imagereferenceSafe."',
+      lien = '".$lienreferenceSafe."'
        WHERE langue = '".$langue."' and idreference ='".$idreferenceSafe."'";
 
 	  $res = mysqli_query($dbC, $sql);

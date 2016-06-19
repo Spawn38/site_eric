@@ -35,7 +35,7 @@ try {
     if($typeBlockSafe) {
       $sql = "UPDATE block set texte = '".$textBlockFormSafe."',
        image = '".$fondBlockFormSafe."', ordre =  '".$ordre."', titre = '',
-       type = '".$typeBlockSafe."' , WHERE langue = '".$langue."'
+       type = '".$typeBlockSafe."'  WHERE langue = '".$langue."'
        and idblock ='".$idBlockSafe."'";
     } else {
       $sql = "UPDATE block set texte = '".$valueBlockFormSafe."',

@@ -75,8 +75,8 @@ table a {
 }
 
 .modal {
-  width : 95%;
-  height: 90%;
+  width : 95%;  
+  max-height: 90%;
 }
 
 #logo {
@@ -89,6 +89,7 @@ table a {
 
 #logo-min {
   height : 30px;
+  max-width: none !important;
 }
 
 .logo-min {
@@ -211,4 +212,14 @@ table.admin a {
 
 .fullwidth {
   width: 100%;
+}
+
+img {
+    max-width: 100% !important;
+}
+
+.parallaxImg {
+  max-width: none !important;
+  opacity: 0.8;
+  filter: alpha(opacity=80);
 }

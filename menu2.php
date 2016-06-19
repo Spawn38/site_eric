@@ -61,11 +61,22 @@ include(__DIR__.'/blocks/footer.php');
   ?>
     <div class="col l4 m6 s12">
       <div class="card">
-        <div class="card-image waves-effect waves-block waves-light">
         <?php
-          echo "<img class=\"activator\" src=\"".htmlspecialchars_decode($reference['image'], ENT_QUOTES)."\" style=\"width:auto;padding:15px\">";
+        if($reference['lien'] && !empty($reference['lien'])) {
+          echo '<div class="card-image waves-effect waves-block waves-light">';
+            echo '<a href="'.htmlspecialchars_decode($reference['lien'], ENT_QUOTES).'" target="_blank">';
+              echo '<img class="activator" src="'.htmlspecialchars_decode($reference['image'], ENT_QUOTES).
+              '" style="width:auto;padding:15px">';
+            echo '</a>';
+          echo '</div>';
+        }
+        else {
+          echo '<div class="card-image">';
+              echo '<img class="activator" src="'.htmlspecialchars_decode($reference['image'], ENT_QUOTES).
+              '" style="width:auto;padding:15px">';            
+          echo '</div>';
+        }
         ?>
-        </div>
         <div class="card-content">
           <p>
           <?php

@@ -13,7 +13,7 @@ function blocks($blocks) {
           echo '</div>';
         echo '</div>';
         echo '<div class="parallax">';
-          echo '<img style="opacity: 0.8;filter: alpha(opacity=80);" ';
+          echo '<img class="parallaxImg" ';
           echo 'src="'.$block['image'].'" ';
           echo 'alt="Unsplashed background img">';
         echo '</div>';

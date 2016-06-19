@@ -47,7 +47,7 @@ function engagements($pageElements, $engagements, $engagementsColNumber)
                 echo htmlspecialchars_decode($engagement['icone'], ENT_QUOTES);
               echo '</i>';
             echo '</h2>';
-            echo '<div class="center">';
+            echo '<div>';
               echo htmlspecialchars_decode($engagement['titre'], ENT_QUOTES);
             echo '</div>';
             echo '<div class="'.$fondClass.'" id="'.$idEng.'">';

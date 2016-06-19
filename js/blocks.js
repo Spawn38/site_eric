@@ -1,8 +1,8 @@
 
 function addBlockForm() {
 	$('#modalBlockForm').openModal();
-  $('fondBlockForm').val('');
-  $('textBlockForm').val('');
+  $('#fondBlockForm').val('');
+  $('#textBlockForm').val('');
   $('#titreBlockForm').val('');
   tinymce.get('valueBlockForm').setContent('');
   $('#idBlockForm').val(-1);

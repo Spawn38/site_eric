@@ -3,13 +3,8 @@
 include(__DIR__.'/cloudinary/Cloudinary.php');
 include(__DIR__.'/cloudinary/Uploader.php');
 include(__DIR__.'/cloudinary/Api.php');
-//include(__DIR__.'/../admin/cloudinaryAdmin.php');
+include(__DIR__.'/../admin/cloudinaryAdmin.php');
 
-\Cloudinary::config(array(
-  "cloud_name" => "sppa",
-  "api_key" => "635626379662167",
-  "api_secret" => "UG_Xbzz5FVW-d_5RS2BnXtfI1XQ"
-));
 
 
 $fichier = basename($_FILES['filejoueur']['name']);

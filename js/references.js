@@ -2,6 +2,7 @@ function addReferenceForm() {
 	$('#modalReferenceForm').openModal();
   $('#textRefrenceForm').val('');
 	$('#imageReference').val('');
+	$('#lienReference').val('');
   $('#idReferenceForm').val(-1);
 	$('#actionReferenceForm').val('add');
 }
@@ -12,6 +13,8 @@ function editReferenceForm(idreference) {
 	$('#textRefrenceForm').trigger('change');
 	$('#imageReference').val($('#reference'+idreference+'>td>img').attr('src'));
 	$('#imageReference').trigger('change');
+	$('#lienReference').val($('#reference'+idreference+'>td>a').attr('href'));
+	$('#lienReference').trigger('change');
 	$('#idReferenceForm').val(idreference);
 	$('#actionReferenceForm').val('edit');
 }
@@ -40,10 +43,10 @@ function deleteReferenceForm(idreference) {
 	}
 }
 
-function validAddReferenceForm(textrefrence, imagereference, langue) {
+function validAddReferenceForm(textrefrence, imagereference, lienreference, langue) {
 	$.ajax({ url: '/func/addReference.php',
         data: {textrefrence:textrefrence, imagereference:imagereference,
-        	langue:langue},
+					lienreference:lienreference, langue:langue},
         type: 'post',
         success: function(output) {
         	if(output.success) {
@@ -62,10 +65,10 @@ function validAddReferenceForm(textrefrence, imagereference, langue) {
 	});
 }
 
-function validEditReferenceForm(idreference, textrefrence, imagereference, langue) {
+function validEditReferenceForm(idreference, textrefrence, imagereference, lienreference, langue) {
 	$.ajax({ url: '/func/editReference.php',
         data: {idreference:idreference, textrefrence:textrefrence,
-          imagereference:imagereference, langue: langue},
+          imagereference:imagereference, lienreference:lienreference, langue: langue},
         type: 'post',
         success: function(output) {
         	if(output.success) {

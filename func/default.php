@@ -8,6 +8,7 @@ function getDefaultValues() {
 	$tab['logo'] = array('value' => htmlspecialchars("http://res.cloudinary.com/sppa/image/upload/v1465317822/logo_rnckgh.png", ENT_QUOTES), 'simple'=>'1' , 'image'=>'1');
 	$tab['img_banner'] = array('value' => htmlspecialchars("http://res.cloudinary.com/sppa/image/upload/v1465442107/images5_mipvaz.jpg", ENT_QUOTES), 'simple'=>'1' , 'image'=>'1');
 	$tab['titre'] =array('value'=> htmlspecialchars("SSPA  - Solidary Sport Professional Association", ENT_QUOTES), 'simple' => '1');
+	$tab['menu0'] =array('value'=>  htmlspecialchars("Les engagements", ENT_QUOTES), 'simple' => '1');
 	$tab['menu1'] =array('value'=>  htmlspecialchars("Les joueurs", ENT_QUOTES), 'simple' => '1');
 	$tab['menu2'] =array('value'=>  htmlspecialchars("Les références", ENT_QUOTES), 'simple' => '1');
 	$tab['menu3'] =array('value'=>  htmlspecialchars("Les références", ENT_QUOTES), 'simple' => '1');
