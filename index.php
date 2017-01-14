@@ -1,9 +1,11 @@
 <?php
 session_start();
 $_SESSION['token'] = crypt("access",date("m.d.y"));
-include(__DIR__.'/func/getContact.php');
-$langue = isSet($_SESSION['lang'])?$_SESSION['lang']:"fr";
 
+include(__DIR__.'/func/lang.php');
+$langue = getLang();
+
+include(__DIR__.'/func/getContact.php');
 $contactsArray = getContact($langue);
 
 include(__DIR__.'/func/default.php');
